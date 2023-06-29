@@ -13,6 +13,8 @@ app.use(express.static("public"));
 const usersFilePath = __dirname + "/users.txt";
 const messagesFilePath = __dirname + "/messages.txt";
 
+const idGenerator = () => Math.floor(Math.random() * 100000);
+
 let messageBoard = [];
 
 const user = {
@@ -20,7 +22,6 @@ const user = {
     name: "Espar",
     pin: "0000",
 };
-let idCounter = 0;
 
 const message = {
     id: "0",
@@ -61,7 +62,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/addMsg", (req, res) => {
-    idCounter++;
+    const idCounter = idGenerator();
 
     messageBoard.push({
         id: idCounter.toString(),

@@ -1,5 +1,5 @@
 console.log("index loaded");
-setInterval(() => location.reload(), 5000);
+setInterval(() => location.reload(), 50000);
 
 const deleteTextEls = document.querySelectorAll(".message_delete");
 const likeEls = document.querySelectorAll(".message_likes");
