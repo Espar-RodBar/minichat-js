@@ -55,10 +55,9 @@ app.get("/", (req, res) => {
         }
         messageBoard = JSON.parse(data);
 
-        // update the idCounter with  the length of message in the file
-        idCounter = messageBoard.length;
         res.render("index.ejs", { messages: messageBoard });
     });
+    console.log(req.body);
 });
 
 app.post("/addMsg", (req, res) => {
