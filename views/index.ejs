@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ChatJS</title>
+        <link rel="stylesheet" href="./assets/style.css" />
+    </head>
+    <body>
+        <h1>ChatJS</h1>
+        <p class="user">
+            <span class="user_id">123</span><span class="user_name">Espar</span>
+        </p>
+        <form action="/addMsg" method="POST">
+            
+            <input type="text" name="message" />
+            <input type="submit"></input>
+        </form>
+
+        <ul class="text_whiteboard">
+            <% for(let i=0; i < messages.length; i++) {%>
+                <li class="message" data-message-id="<%= messages[i].id %>">
+                    <span class="message_id"><%= messages[i].id %></span>
+                    <span class="message_text"><%= messages[i].text %></span>
+                    <span class="message_user"><%= messages[i].userName %></span>
+                    <span class="message_likes"><%= "♥︎" + messages[i].likes %></span>
+                    <span class="message_delete">DEL</span>
+                </li>
+            <% } %>
+        </ul>
+        <script src="./assets/script.js"></script>
+    </body>
+</html>
