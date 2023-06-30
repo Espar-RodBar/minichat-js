@@ -27,7 +27,7 @@ async function addLike() {
 
 async function deleteMsg() {
     const messageId = this.parentNode.dataset.messageId;
-
+    console.log("erasing..." + messageId);
     try {
         const response = await fetch("deleteMsg", {
             method: "delete",

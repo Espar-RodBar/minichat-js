@@ -14,8 +14,8 @@
         </p>
         <form action="/addMsg" method="POST">
             
-            <input type="text" name="message" />
-            <input type="submit"></input>
+            <input type="text" id="input-message" name="message" />
+            <input type="submit" id="button"></input>
         </form>
 
         <ul class="text_whiteboard">
@@ -24,7 +24,7 @@
                     <span class="message_id"><%= messages[i].id %></span>
                     <span class="message_text"><%= messages[i].text %></span>
                     <span class="message_user"><%= messages[i].userName %></span>
-                    <span class="message_likes"><%= "♥︎" + messages[i].likes %></span>
+                    <span class="message_likes"><%= messages[i].likes %></span>
                     <span class="message_delete">DEL</span>
                 </li>
             <% } %>

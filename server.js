@@ -76,6 +76,7 @@ app.post("/addMsg", (req, res) => {
 
 app.put("/addOneLike", (req, res) => {
     const messageId = req.body;
+    console.log("liking..." + messageId);
     const data = messageBoard.find((message) => message.id === messageId.id);
 
     data["likes"] = data["likes"] + 1;
@@ -84,8 +85,8 @@ app.put("/addOneLike", (req, res) => {
 });
 
 app.delete("/deleteMsg", (req, res) => {
-    console.log("Deleting...");
     const messageId = req.body;
+    console.log("Deleting..." + messageId);
 
     const indexDel = messageBoard.findIndex(
         (message) => message.id === messageId.id

@@ -1,3 +1,9 @@
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+body {
+}
 section {
     margin: 5rem auto;
     max-width: 40rem;
@@ -15,6 +21,34 @@ h1 {
     text-align: center;
 }
 
+section > form {
+    display: flex;
+    justify-content: space-between;
+}
+#input-message {
+    flex-basis: 80%;
+    border: 2px solid rgb(255, 217, 0);
+    border-radius: 5px;
+}
+
+#input-message:focus {
+    outline: 1px solid rgb(254, 172, 9);
+    border: 2px solid rgb(255, 225, 53);
+}
+
+section #button {
+    padding: 0.2rem 0.4rem;
+    border-radius: 5px;
+    background: rgb(164, 255, 164);
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    transition: all 0.3s;
+}
+section #button:hover {
+    border: 1px solid rgb(0, 79, 3);
+}
+
 .text_whiteboard {
     padding: 1rem;
     list-style: none;
@@ -27,6 +61,7 @@ h1 {
 .text_whiteboard .message {
     display: flex;
     padding: 0.25rem 0.75rem;
+    gap: 0.5rem;
 }
 
 .message_id {
@@ -44,11 +79,41 @@ h1 {
 }
 
 .message_likes {
+    font-size: 1rem;
     flex-basis: 5%;
     text-align: center;
-}
+    color: white;
+    cursor: pointer;
 
+    position: relative;
+}
+.message_likes:after {
+    content: "♥︎";
+    font-size: 2rem;
+    position: absolute;
+    top: -25%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -5;
+    color: red;
+    transform: scale(1);
+    transition: all 0.3s;
+}
+.message_likes:hover:after {
+    transform: scale(1.05);
+    color: rgb(255, 86, 86);
+}
 .message_delete {
+    padding: 0.3rem 0.1rem;
+    font-size: 0.8rem;
     flex-basis: 10%;
     text-align: center;
+    border: 1px solid rgb(141, 0, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.message_delete:hover {
+    background: rgba(255, 120, 120, 0.57);
 }
