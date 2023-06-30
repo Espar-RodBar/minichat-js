@@ -36,6 +36,8 @@ async function deleteMsg() {
         });
 
         const data = await response.json();
+
+        location.reload();
     } catch {
         (err) => console.log(err);
     }

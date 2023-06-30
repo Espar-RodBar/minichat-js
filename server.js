@@ -62,6 +62,7 @@ app.get("/", (req, res) => {
 app.post("/addMsg", (req, res) => {
     const idCounter = idGenerator();
 
+    console.log("creating mesg id: " + idCounter);
     messageBoard.push({
         id: idCounter.toString(),
         userId: "0",
@@ -76,23 +77,24 @@ app.post("/addMsg", (req, res) => {
 
 app.put("/addOneLike", (req, res) => {
     const messageId = req.body;
-    console.log("liking..." + messageId);
-    const data = messageBoard.find((message) => message.id === messageId.id);
 
-    data["likes"] = data["likes"] + 1;
+    const message = messageBoard.find((message) => message.id === messageId.id);
+
+    message["likes"] = message["likes"] + 1;
     saveMessages(messageBoard);
     res.status(200).json("+1 like");
 });
 
 app.delete("/deleteMsg", (req, res) => {
     const messageId = req.body;
-    console.log("Deleting..." + messageId);
 
-    const indexDel = messageBoard.findIndex(
-        (message) => message.id === messageId.id
+    const indexDel = Number(
+        messageBoard.findIndex((message) => message.id === messageId.id)
     );
 
-    messageBoard = messageBoard.splice(indexDel, 1);
+    console.log("Deleting..." + messageId.id + " position in " + indexDel);
+    messageBoard.splice(indexDel, 1);
+    saveMessages(messageBoard);
 
     res.status(200).json("Message deleted");
 });
