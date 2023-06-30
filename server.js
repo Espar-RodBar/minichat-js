@@ -57,7 +57,6 @@ app.get("/", (req, res) => {
 
         res.render("index.ejs", { messages: messageBoard });
     });
-    console.log(req.body);
 });
 
 app.post("/addMsg", (req, res) => {

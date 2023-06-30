@@ -1,3 +1,54 @@
+section {
+    margin: 5rem auto;
+    max-width: 40rem;
+}
 h1 {
-    background: red;
+    display: block;
+    padding: 1rem;
+    max-width: 40rem;
+    background: linear-gradient(
+        25deg,
+        rgb(224, 191, 0),
+        rgb(255, 255, 16),
+        rgb(224, 191, 0)
+    );
+    text-align: center;
+}
+
+.text_whiteboard {
+    padding: 1rem;
+    list-style: none;
+    border: 2px solid rgb(255, 217, 0);
+    box-shadow: 0 0 1rem 1px rgba(255, 255, 0, 0.4),
+        0 0 2px 1px rgba(255, 255, 0, 0.2),
+        inset 0 0 1rem 1px rgba(255, 255, 0, 0.4);
+}
+
+.text_whiteboard .message {
+    display: flex;
+    padding: 0.25rem 0.75rem;
+}
+
+.message_id {
+    display: none;
+}
+
+.message_text {
+    flex-basis: 70%;
+    border-bottom: 1px solid rgba(255, 255, 0, 0.485);
+}
+
+.message_user {
+    flex-basis: 15%;
+    text-align: center;
+}
+
+.message_likes {
+    flex-basis: 5%;
+    text-align: center;
+}
+
+.message_delete {
+    flex-basis: 10%;
+    text-align: center;
 }
