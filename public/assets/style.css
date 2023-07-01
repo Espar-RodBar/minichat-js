@@ -23,7 +23,24 @@ h1 {
 
 section > form {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.user {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user_name {
+    border: none;
+    border-bottom: 2px solid rgb(255, 217, 0);
+    border-radius: 2px;
+}
+.user_name:focus {
+    outline: 1px solid rgb(254, 172, 9);
 }
 #input-message {
     flex-basis: 80%;

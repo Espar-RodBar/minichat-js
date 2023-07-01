@@ -66,7 +66,7 @@ app.post("/addMsg", (req, res) => {
     messageBoard.push({
         id: idCounter.toString(),
         userId: "0",
-        userName: "Espar",
+        userName: req.body.userName,
         text: req.body.message,
         likes: 0,
     });

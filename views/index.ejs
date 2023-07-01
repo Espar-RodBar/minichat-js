@@ -8,28 +8,37 @@
     </head>
     <body>
         <section>
-        <h1>ChatJS</h1>
-        <p class="user">
-            <span class="user_id">123</span><span class="user_name">Espar</span>
-        </p>
-        <form action="/addMsg" method="POST">
-            
-            <input type="text" id="input-message" name="message" />
-            <input type="submit" id="button"></input>
-        </form>
+            <h1>ChatJS</h1>
 
-        <ul class="text_whiteboard">
-            <% for(let i=0; i < messages.length; i++) {%>
+            <form action="/addMsg" method="POST">
+                <p class="user">
+                    <label for="userName">User name:</label>
+                    <input
+                        type="text"
+                        id="user_name"
+                        class="user_name"
+                        name="userName"
+                        required
+                    />
+                </p>
+                <input type="text" id="input-message" name="message" />
+                <input type="submit" id="button" />
+            </form>
+
+            <ul class="text_whiteboard">
+                <% for(let i=0; i < messages.length; i++) {%>
                 <li class="message" data-message-id="<%= messages[i].id %>">
                     <span class="message_id"><%= messages[i].id %></span>
                     <span class="message_text"><%= messages[i].text %></span>
-                    <span class="message_user"><%= messages[i].userName %></span>
+                    <span class="message_user"
+                        ><%= messages[i].userName %></span
+                    >
                     <span class="message_likes"><%= messages[i].likes %></span>
                     <span class="message_delete">DEL</span>
                 </li>
-            <% } %>
-        </ul>
-    </section>
+                <% } %>
+            </ul>
+        </section>
         <script src="./assets/script.js"></script>
     </body>
 </html>
