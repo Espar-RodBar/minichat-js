@@ -31,11 +31,13 @@ const message = {
     likes: 0,
 };
 
+// function to save user data
 function saveUser(user) {
     const data = JSON.stringify(user);
     fs.writeFile(usersFilePath, data, "utf-8", (err) => console.log(err));
 }
 
+// function to save messages in a file
 function saveMessages(messages) {
     const data = JSON.stringify(messages);
 
