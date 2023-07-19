@@ -13,15 +13,6 @@ let db,
 
 if (result.error) console.log("error loading environment var");
 
-// MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
-//     .then((client) => {
-//         console.log(`Connected to db ${dbName} Database`);
-//         db = client.db(dbName);
-//     })
-//     .catch((err) => {
-//         console.log(`Error db connection: ${err}`);
-//     });
-
 const app = express();
 app.use(cors());
 app.set("view engine", "ejs");
@@ -34,8 +25,7 @@ const messagesFilePath = __dirname + "/messages.txt";
 
 const idGenerator = () => Math.floor(Math.random() * 100000);
 
-let messageBoard = [];
-
+// let messageBoard = [];
 // user format
 // const user = {
 //     id: "0",
@@ -77,57 +67,71 @@ function readMessagesAsync(file) {
     });
 }
 
-app.listen("8000", () => {
-    console.log("Server is listening on port: " + 8000);
-});
+MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+    .then((client) => {
+        console.log(`Connected to db ${dbName} Database`);
+        db = client.db(dbName);
+        const messageBoard = [];
 
-app.get("/", (req, res) => {
-    readMessagesAsync(messagesFilePath)
-        .then((msgs) => {
-            console.log("board: ", messageBoard);
-            console.log("msg: ", msgs);
-            messageBoard = msgs;
-            res.render("index.ejs", { messages: messageBoard });
-        })
-        .catch((err) => console.log("err on get", err));
-});
+        app.listen("8000", () => {
+            console.log("Server is listening on port: " + 8000);
+        });
 
-app.post("/addMsg", (req, res) => {
-    const idCounter = idGenerator();
+        app.get("/", (req, res) => {
+            readMessagesAsync(messagesFilePath)
+                .then((msgs) => {
+                    console.log("board: ", messageBoard);
+                    console.log("msg: ", msgs);
+                    messageBoard = msgs;
+                    res.render("index.ejs", { messages: messageBoard });
+                })
+                .catch((err) => console.log("err on get", err));
+        });
 
-    console.log("creating mesg id: " + idCounter);
-    messageBoard.push({
-        id: idCounter.toString(),
-        userId: "0",
-        userName: req.body.userName,
-        text: req.body.message,
-        likes: 0,
+        app.post("/addMsg", (req, res) => {
+            const idCounter = idGenerator();
+
+            console.log("creating mesg id: " + idCounter);
+            messageBoard.push({
+                id: idCounter.toString(),
+                userId: "0",
+                userName: req.body.userName,
+                text: req.body.message,
+                likes: 0,
+            });
+
+            saveMessages(messageBoard);
+            res.redirect("/");
+        });
+
+        app.put("/addOneLike", (req, res) => {
+            const messageId = req.body;
+
+            const message = messageBoard.find(
+                (message) => message.id === messageId.id
+            );
+
+            message["likes"] = message["likes"] + 1;
+            saveMessages(messageBoard);
+            res.status(200).json("+1 like");
+        });
+
+        app.delete("/deleteMsg", (req, res) => {
+            const messageId = req.body;
+
+            const indexDel = Number(
+                messageBoard.findIndex((message) => message.id === messageId.id)
+            );
+
+            console.log(
+                "Deleting..." + messageId.id + " position in " + indexDel
+            );
+            messageBoard.splice(indexDel, 1);
+            saveMessages(messageBoard);
+
+            res.status(200).json("Message deleted");
+        });
+    })
+    .catch((err) => {
+        console.log(`Error db connection: ${err}`);
     });
-
-    saveMessages(messageBoard);
-    res.redirect("/");
-});
-
-app.put("/addOneLike", (req, res) => {
-    const messageId = req.body;
-
-    const message = messageBoard.find((message) => message.id === messageId.id);
-
-    message["likes"] = message["likes"] + 1;
-    saveMessages(messageBoard);
-    res.status(200).json("+1 like");
-});
-
-app.delete("/deleteMsg", (req, res) => {
-    const messageId = req.body;
-
-    const indexDel = Number(
-        messageBoard.findIndex((message) => message.id === messageId.id)
-    );
-
-    console.log("Deleting..." + messageId.id + " position in " + indexDel);
-    messageBoard.splice(indexDel, 1);
-    saveMessages(messageBoard);
-
-    res.status(200).json("Message deleted");
-});
