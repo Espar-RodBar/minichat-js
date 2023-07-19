@@ -2,6 +2,25 @@ const express = require("express");
 const ejs = require("ejs");
 const fs = require("fs");
 const cors = require("cors");
+const MongoClient = require("mongodb").MongoClient;
+const PORT = "2121";
+const dotenv = require("dotenv");
+const result = dotenv.config();
+
+let db,
+    dbConnectionStr = process.env.DB_STRING,
+    dbName = "ClusterChatJS";
+
+if (result.error) console.log("error loading environment var");
+
+// MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+//     .then((client) => {
+//         console.log(`Connected to db ${dbName} Database`);
+//         db = client.db(dbName);
+//     })
+//     .catch((err) => {
+//         console.log(`Error db connection: ${err}`);
+//     });
 
 const app = express();
 app.use(cors());
@@ -17,27 +36,27 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 
 let messageBoard = [];
 
-const user = {
-    id: "0",
-    name: "Espar",
-    pin: "0000",
-};
+// user format
+// const user = {
+//     id: "0",
+//     name: "Espar",
+//     pin: "0000",
+// };
 
-const message = {
-    id: "0",
-    userId: "0",
-    userName: "Espar",
-    text: "ola k ase?",
-    likes: 0,
-};
+// message format
+// const message = {
+//     id: "0",
+//     userId: "0",
+//     userName: "Espar",
+//     text: "ola k ase?",
+//     likes: 0,
+// };
 
-// function to save user data
 function saveUser(user) {
     const data = JSON.stringify(user);
     fs.writeFile(usersFilePath, data, "utf-8", (err) => console.log(err));
 }
 
-// function to save messages in a file
 function saveMessages(messages) {
     const data = JSON.stringify(messages);
 
@@ -46,19 +65,31 @@ function saveMessages(messages) {
     });
 }
 
+function readMessagesAsync(file) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(file, "utf-8", (err, data) => {
+            if (err) {
+                reject(`Error opening file: ${err}`);
+            } else {
+                resolve(JSON.parse(data));
+            }
+        });
+    });
+}
+
 app.listen("8000", () => {
     console.log("Server is listening on port: " + 8000);
 });
 
 app.get("/", (req, res) => {
-    fs.readFile(messagesFilePath, "utf-8", (err, data) => {
-        if (err) {
-            console.log(`Error opneing file: ${err}`);
-        }
-        messageBoard = JSON.parse(data);
-
-        res.render("index.ejs", { messages: messageBoard });
-    });
+    readMessagesAsync(messagesFilePath)
+        .then((msgs) => {
+            console.log("board: ", messageBoard);
+            console.log("msg: ", msgs);
+            messageBoard = msgs;
+            res.render("index.ejs", { messages: messageBoard });
+        })
+        .catch((err) => console.log("err on get", err));
 });
 
 app.post("/addMsg", (req, res) => {

@@ -67,6 +67,7 @@ section #button:hover {
 }
 
 .text_whiteboard {
+    min-height: 20rem;
     padding: 1rem;
     list-style: none;
     border: 2px solid rgb(255, 217, 0);
