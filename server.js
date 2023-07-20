@@ -43,31 +43,6 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 //     likes: 0,
 // };
 
-function saveUser(user) {
-    const data = JSON.stringify(user);
-    fs.writeFile(usersFilePath, data, "utf-8", (err) => console.log(err));
-}
-
-function saveMessages(messages) {
-    const data = JSON.stringify(messages);
-
-    fs.writeFile(messagesFilePath, data, "utf-8", (err) => {
-        if (err) console.log("err writing: ", err);
-    });
-}
-
-function readMessagesAsync(file) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(file, "utf-8", (err, data) => {
-            if (err) {
-                reject(`Error opening file: ${err}`);
-            } else {
-                resolve(JSON.parse(data));
-            }
-        });
-    });
-}
-
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then((client) => {
         console.log(`Connected to db ${dbName} Database`);
