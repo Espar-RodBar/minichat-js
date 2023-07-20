@@ -21,9 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const usersFilePath = __dirname + "/users.txt";
-const messagesFilePath = __dirname + "/messages.txt";
-
 const idGenerator = () => Math.floor(Math.random() * 100000);
 
 // let messageBoard = [];
