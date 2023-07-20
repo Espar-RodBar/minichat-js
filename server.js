@@ -124,17 +124,11 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         });
 
         app.delete("/deleteMsg", (req, res) => {
-            const messageId = req.body;
+            const messageId = Number(req.body["id"]);
 
-            const indexDel = Number(
-                messageBoard.findIndex((message) => message.id === messageId.id)
-            );
+            console.log("Deleting..." + messageId);
 
-            console.log(
-                "Deleting..." + messageId.id + " position in " + indexDel
-            );
-            messageBoard.splice(indexDel, 1);
-            saveMessages(messageBoard);
+            messageBoard.findOneAndDelete({ id: messageId });
 
             res.status(200).json("Message deleted");
         });
