@@ -42,7 +42,10 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then((client) => {
-        console.log(`Connected to db ${dbName} Database`);
+        // added con.log with key to test
+        console.log(
+            `Connected to db ${dbName} Database with ${dbConnectionStr}`
+        );
         db = client.db(dbName);
         const messageBoard = db.collection("messages");
 
@@ -73,7 +76,6 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
             res.redirect("/");
         });
 
-        // TODO fix update by id
         app.put("/addOneLike", (req, res) => {
             const messageId = Number(req.body["id"]);
 
