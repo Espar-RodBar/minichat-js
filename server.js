@@ -3,6 +3,7 @@ const ejs = require("ejs");
 const fs = require("fs");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
+
 const PORT = "2121";
 const dotenv = require("dotenv");
 const result = dotenv.config();
@@ -35,7 +36,7 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 
 // message format
 // const message = {
-//     id: "0",
+//     _id: "0",
 //     userId: "0",
 //     userName: "Espar",
 //     text: "ola k ase?",
@@ -71,49 +72,55 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then((client) => {
         console.log(`Connected to db ${dbName} Database`);
         db = client.db(dbName);
-        const messageBoard = [];
+        const messageBoard = db.collection("messages");
 
         app.listen("8000", () => {
             console.log("Server is listening on port: " + 8000);
         });
 
         app.get("/", (req, res) => {
-            readMessagesAsync(messagesFilePath)
-                .then((msgs) => {
-                    console.log("board: ", messageBoard);
-                    console.log("msg: ", msgs);
-                    messageBoard = msgs;
-                    res.render("index.ejs", { messages: messageBoard });
-                })
-                .catch((err) => console.log("err on get", err));
+            db.collection("messages")
+                .find()
+                .toArray()
+                .then((messages) => {
+                    res.render("index.ejs", { messages });
+                });
         });
 
         app.post("/addMsg", (req, res) => {
-            const idCounter = idGenerator();
-
-            console.log("creating mesg id: " + idCounter);
-            messageBoard.push({
-                id: idCounter.toString(),
+            const newId = idGenerator();
+            const msg = {
+                id: newId,
                 userId: "0",
                 userName: req.body.userName,
                 text: req.body.message,
                 likes: 0,
-            });
+            };
+            messageBoard.insertOne(msg).then((result) => console.log(result));
 
-            saveMessages(messageBoard);
             res.redirect("/");
         });
 
+        // TODO fix update by id
         app.put("/addOneLike", (req, res) => {
-            const messageId = req.body;
+            const messageId = Number(req.body["id"]);
 
-            const message = messageBoard.find(
-                (message) => message.id === messageId.id
-            );
-
-            message["likes"] = message["likes"] + 1;
-            saveMessages(messageBoard);
-            res.status(200).json("+1 like");
+            messageBoard
+                .findOne({ id: messageId })
+                .then((msg) => {
+                    return msg.likes;
+                })
+                .then((like) => {
+                    messageBoard
+                        .findOneAndUpdate(
+                            { id: messageId },
+                            { $set: { likes: like + 1 } }
+                        )
+                        .then((result) => {
+                            res.status(200).json("+1 like");
+                        });
+                })
+                .catch((err) => res.status(500).json(err));
         });
 
         app.delete("/deleteMsg", (req, res) => {
