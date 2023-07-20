@@ -42,7 +42,7 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then((client) => {
-        // added con.log with key to test
+        // REMOVE added con.log with key to test
         console.log(
             `Connected to db ${dbName} Database with ${dbConnectionStr}`
         );
