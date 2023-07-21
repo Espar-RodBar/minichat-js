@@ -4,7 +4,7 @@ const fs = require("fs");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 
-const PORT = "2121";
+const PORT = process.env.PORT || "2121";
 const dotenv = require("dotenv");
 const result = dotenv.config();
 
@@ -49,8 +49,8 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         db = client.db(dbName);
         const messageBoard = db.collection("messages");
 
-        app.listen("8000", () => {
-            console.log("Server is listening on port: " + 8000);
+        app.listen(PORT, () => {
+            console.log("Server is listening on port: " + PORT);
         });
 
         app.get("/", (req, res) => {
