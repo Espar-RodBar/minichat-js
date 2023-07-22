@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ChatJS Login</title>
+        <title>ChatJS Register</title>
         <link rel="stylesheet" href="./assets/style.css" />
     </head>
     <body>
@@ -11,8 +11,8 @@
             <header>
                 <h1>ChatJS</h1>
             </header>
-            <form action="/login" class="login_form" method="POST">
-                <div class="login_container">
+            <form action="/register" class="register_form" method="POST">
+                <div class="register_container">
                     <div class="user_name_wrapper user_wrapper">
                         <label for="userName">User name:</label>
                         <input
@@ -32,8 +32,18 @@
                             name="userPin"
                             required
                         />
+                        <label for="userConfirmationPin"
+                            >Pin confirmation:</label
+                        >
+                        <input
+                            type="text"
+                            id="input_user_pin"
+                            class="input_user_confirmation_pin"
+                            name="userConfirmationPin"
+                            required
+                        />
                     </div>
-                    <input type="submit" id="login_btn" value="login" />
+                    <input type="submit" id="register_btn" value="register" />
                 </div>
             </form>
         </section>

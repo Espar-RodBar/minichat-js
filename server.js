@@ -63,6 +63,10 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
             res.render("login.ejs");
         });
 
+        app.get("/register", (req, res) => {
+            res.render("register.ejs");
+        });
+
         app.post("/addMsg", (req, res) => {
             const newId = idGenerator();
             const msg = {

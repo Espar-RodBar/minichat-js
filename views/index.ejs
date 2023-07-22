@@ -11,8 +11,8 @@
             <header>
                 <h1>ChatJS</h1>
             </header>
-            <form action="/addMsg" method="POST">
-                <p class="user">
+            <form action="/addMsg" id="login_form" method="POST">
+                <div class="user">
                     <label for="userName">User name:</label>
                     <input
                         type="text"
@@ -21,9 +21,11 @@
                         name="userName"
                         required
                     />
-                </p>
-                <input type="text" id="input-message" name="message" />
-                <input type="submit" id="button" />
+                </div>
+                <div class="message_wrapper">
+                    <input type="text" id="input-message" name="message" />
+                    <input type="submit" id="msgButton" />
+                </div>
             </form>
 
             <ul class="text_whiteboard">
