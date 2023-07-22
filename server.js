@@ -4,15 +4,15 @@ const fs = require("fs");
 const cors = require("cors");
 const MongoClient = require("mongodb").MongoClient;
 
-const PORT = process.env.PORT || "2121";
 const dotenv = require("dotenv");
 const result = dotenv.config();
+const PORT = process.env.PORT || "2121";
+
+if (result.error) console.log("error loading environment var");
 
 let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = "ClusterChatJS";
-
-if (result.error) console.log("error loading environment var");
 
 const app = express();
 app.use(cors());
