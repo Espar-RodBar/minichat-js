@@ -1,4 +1,4 @@
-console.log("index loaded");
+console.log("page loaded");
 setInterval(() => location.reload(), 50000);
 
 const deleteTextEls = document.querySelectorAll(".message_delete");

@@ -42,10 +42,7 @@ const idGenerator = () => Math.floor(Math.random() * 100000);
 
 MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
     .then((client) => {
-        // REMOVE added con.log with key to test
-        console.log(
-            `Connected to db ${dbName} Database with ${dbConnectionStr}`
-        );
+        console.log(`Connected to db ${dbName} Database `);
         db = client.db(dbName);
         const messageBoard = db.collection("messages");
 
@@ -60,6 +57,10 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
                 .then((messages) => {
                     res.render("index.ejs", { messages });
                 });
+        });
+
+        app.get("/login", (req, res) => {
+            res.render("login.ejs");
         });
 
         app.post("/addMsg", (req, res) => {
