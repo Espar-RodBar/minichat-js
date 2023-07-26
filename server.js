@@ -45,13 +45,15 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         console.log(`Connected to db ${dbName} Database `);
         db = client.db(dbName);
         const messageBoard = db.collection("messages");
+        const users = db.collection("users");
+        let user_error_message = "";
 
         app.listen(PORT, () => {
             console.log("Server is listening on port: " + PORT);
         });
 
         app.get("/", (req, res) => {
-            db.collection("messages")
+            messageBoard
                 .find()
                 .toArray()
                 .then((messages) => {
@@ -64,7 +66,28 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
         });
 
         app.get("/register", (req, res) => {
-            res.render("register.ejs");
+            user_error_message = "";
+            res.render("register.ejs", { user_error_message });
+        });
+
+        app.post("/register_user", (req, res) => {
+            const { userName, userPin, userConfirmationPin } = req.body;
+            console.time("register");
+            console.log(userName, userPin, userConfirmationPin);
+            console.timeEnd("register");
+
+            if (userPin !== userConfirmationPin) {
+                user_error_message = "pin doesn't match";
+                res.render("register.ejs", { user_error_message });
+            } else {
+                const user = {
+                    id: idGenerator(),
+                    name: userName,
+                    pin: userPin,
+                };
+                users.insertOne(user).then((result) => console.log(result));
+                res.render("login.ejs");
+            }
         });
 
         app.post("/addMsg", (req, res) => {
