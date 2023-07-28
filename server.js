@@ -52,29 +52,36 @@ MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
             console.log("Server is listening on port: " + PORT);
         });
 
-        app.get("/", (req, res) => {
+        app.get("/", async (req, res) => {
             messageBoard
                 .find()
                 .toArray()
                 .then((messages) => {
                     res.render("index.ejs", { messages });
-                });
+                })
+                .catch((error) => console.log(error));
         });
 
-        app.get("/login", (req, res) => {
+        app.get("/login", async (req, res) => {
             res.render("login.ejs");
         });
 
-        app.get("/register", (req, res) => {
+        app.post("/login", (req, res) => {
+            const { user, pin } = req.body;
+            users
+                .findOne({ name: user, pin })
+                .then((result) => console.log("user found"))
+                .catch((err) => console.log("login error: ", err));
+            res.redirect("/");
+        });
+
+        app.get("/register", async (req, res) => {
             user_error_message = "";
             res.render("register.ejs", { user_error_message });
         });
 
         app.post("/register_user", (req, res) => {
             const { userName, userPin, userConfirmationPin } = req.body;
-            console.time("register");
-            console.log(userName, userPin, userConfirmationPin);
-            console.timeEnd("register");
 
             if (userPin !== userConfirmationPin) {
                 user_error_message = "pin doesn't match";
