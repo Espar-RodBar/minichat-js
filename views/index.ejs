@@ -11,7 +11,7 @@
             <header>
                 <h1>ChatJS</h1>
             </header>
-            <form action="/addMsg" id="login_form" method="POST">
+            <form class="addMsg" action="/addMsg" id="login_form" method="POST">
                 <div class="user">
                     <label for="userName">User name:</label>
                     <input
@@ -42,6 +42,16 @@
                 <% } %>
             </ul>
         </section>
+        <div class="overlay">
+            <form action="/changeMsg" class="change_msg">
+                <p>Edit the message:</p>
+                <div class="message_wrapper">
+                    <input type="text" id="input-message" name="message" />
+                    <input type="submit" id="msgButton" value="Cambiar" />
+                </div>
+                <div class="quit_overlay_btn">X</div>
+            </form>
+        </div>
         <script src="./assets/script.js"></script>
     </body>
 </html>

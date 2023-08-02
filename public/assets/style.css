@@ -100,9 +100,9 @@ section > form {
     height: 1rem;
 }
 
-section #msgButton,
-section #register_btn,
-section #login_btn {
+#msgButton,
+#register_btn,
+#login_btn {
     padding: 0.2rem 0.4rem;
     border-radius: 5px;
     background: rgb(164, 255, 164);
@@ -111,9 +111,9 @@ section #login_btn {
 
     transition: all 0.3s;
 }
-section #button:hover,
-section #register_btn:hover,
-section #login_btn:hover {
+#button:hover,
+#register_btn:hover,
+#login_btn:hover {
     border: 1px solid rgb(0, 79, 3);
 }
 
@@ -185,4 +185,40 @@ section #login_btn:hover {
 }
 .message_delete:hover {
     background: rgba(255, 120, 120, 0.57);
+}
+
+.overlay {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.369);
+    backdrop-filter: blur(5px);
+    z-index: 50;
+    position: absolute;
+}
+
+.overlay .change_msg {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    max-width: 30rem;
+    top: 50%;
+    left: 50%;
+    border-radius: 5px;
+    position: relative;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgb(255, 217, 0);
+}
+
+.overlay .quit_overlay_btn {
+    padding: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: solid 1px red;
+
+    top: 0;
+    right: 0;
+    position: relative;
 }
