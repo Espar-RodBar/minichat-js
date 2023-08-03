@@ -100,9 +100,7 @@ section > form {
     height: 1rem;
 }
 
-#msgButton,
-#register_btn,
-#login_btn {
+.button_green {
     padding: 0.2rem 0.4rem;
     border-radius: 5px;
     background: rgb(164, 255, 164);
@@ -111,9 +109,7 @@ section > form {
 
     transition: all 0.3s;
 }
-#button:hover,
-#register_btn:hover,
-#login_btn:hover {
+.button_green:hover {
     border: 1px solid rgb(0, 79, 3);
 }
 
@@ -216,9 +212,21 @@ section > form {
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
+    background: red;
     border: solid 1px red;
+    color: white;
 
     top: 0;
     right: 0;
-    position: relative;
+    position: absolute;
+
+    transform: translate(60%, -40%);
+}
+
+/* HELPER CLASSES */
+.no_display {
+    display: none;
+}
+.no_visible {
+    visibility: hidden;
 }
