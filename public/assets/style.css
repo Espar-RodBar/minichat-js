@@ -169,6 +169,20 @@ section > form {
     transform: scale(1.05);
     color: rgb(255, 86, 86);
 }
+.message_edit {
+    padding: 0.3rem 0.1rem;
+    font-size: 0.8rem;
+    flex-basis: 10%;
+    text-align: center;
+    border: 1px solid rgb(249, 191, 0);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.message_edit:hover {
+    background: rgba(255, 191, 0, 0.57);
+}
+
 .message_delete {
     padding: 0.3rem 0.1rem;
     font-size: 0.8rem;

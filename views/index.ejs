@@ -13,7 +13,7 @@
             </header>
             <form class="addMsg" action="/addMsg" id="login_form" method="POST">
                 <div class="user">
-                    <label for="userName">User name:</label>
+                    <label for="user_name">User name:</label>
                     <input
                         type="text"
                         id="user_name"
@@ -37,6 +37,7 @@
                         ><%= messages[i].userName %></span
                     >
                     <span class="message_likes"><%= messages[i].likes %></span>
+                    <span class="message_edit">Edit</span>
                     <span class="message_delete">DEL</span>
                 </li>
                 <% } %>
