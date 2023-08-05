@@ -4,24 +4,46 @@ setInterval(() => location.reload(), 50000);
 const editBtnEls = document.querySelectorAll(".message_edit");
 const deleteTextEls = document.querySelectorAll(".message_delete");
 const likeEls = document.querySelectorAll(".message_likes");
+const closeModalWindowBtnEl = document.querySelector(".quit_modal_btn");
+const overlayContainer = document.querySelector(".overlay");
 
-Array.from(editBtnEls).forEach((btn) => {
-    btn.addEventListener("click", activateEditMessage);
-});
+const activateEditMessage = () => {
+    openModalWindow();
+};
 
-Array.from(deleteTextEls).forEach((el) =>
-    el.addEventListener("click", deleteMsg)
-);
-Array.from(likeEls).forEach((el) => el.addEventListener("click", addLike));
+const openModalWindow = () => {
+    setTimeout(
+        (className) => {
+            overlayContainer.classList.remove(className);
+            setTimeout(
+                (className) => {
+                    overlayContainer.classList.add(className);
+                },
+                100,
+                "visible"
+            );
+        },
+        0,
+        "no_display"
+    );
+};
 
-async function activateEditMessage() {
-    const overlayContainer = document.querySelector(".overlay");
-    console.log(overlayContainer);
-    overlayContainer.classList.remove("no_visible", "no_display");
-}
-
-//TODO: Close modal window
-// end
+const closeModalWindow = () => {
+    setTimeout(
+        (className) => {
+            overlayContainer.classList.remove(className);
+            setTimeout(
+                (className) => {
+                    overlayContainer.classList.add(className);
+                },
+                700,
+                "no_display"
+            );
+        },
+        0,
+        "visible"
+    );
+};
 
 async function addLike() {
     const messageId = this.parentNode.dataset.messageId;
@@ -56,3 +78,15 @@ async function deleteMsg() {
         (err) => console.log(err);
     }
 }
+
+Array.from(editBtnEls).forEach((btn) => {
+    btn.addEventListener("click", activateEditMessage);
+});
+
+Array.from(deleteTextEls).forEach((el) =>
+    el.addEventListener("click", deleteMsg)
+);
+Array.from(likeEls).forEach((el) => el.addEventListener("click", addLike));
+
+//Close modal window
+closeModalWindowBtnEl.addEventListener("click", closeModalWindow);
