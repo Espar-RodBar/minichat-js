@@ -1,38 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ChatJS Register</title>
-        <link rel="stylesheet" href="./assets/style.css" />
-    </head>
-    <body>
-        <section>
-            <header>
-                <h1>ChatJS</h1>
-            </header>
-            <form action="/register_user" class="register_form" method="POST">
-                <div class="register_container">
-                    <div class="user_name_wrapper user_wrapper">
-                        <label for="userName">User name:</label>
-                        <input
-                            type="text"
-                            id="input_user_name"
-                            class="input_user_name"
-                            name="userName"
-                            required
-                        />
-                    </div>
-                    <div class="user_pin_wrapper user_wrapper">
-                        <label for="userPin">Pin :</label>
-                        <input
-                            type="text"
-                            id="input_user_pin"
-                            class="input_user_pin"
-                            name="userPin"
-                            required
-                        />
-                        <label for="userConfirmationPin"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatJS Register</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <section>
+      <header>
+        <h1>ChatJS</h1>
+      </header>
+      <form action="/register" class="register_form" method="POST">
+        <div class="register_container">
+          <div class="user_name_wrapper user_wrapper">
+            <label for="userName">User name:</label>
+            <input
+              type="text"
+              id="input_user_name"
+              class="input_user_name"
+              name="userName"
+              required
+            />
+          </div>
+          <div class="user_pin_wrapper user_wrapper">
+            <label for="userPin">Pin :</label>
+            <input
+              type="text"
+              id="input_user_pin"
+              class="input_user_pin"
+              name="password"
+            />
+            <!-- <label for="userConfirmationPin"
                             >Pin confirmation:</label
                         >
                         <input
@@ -41,20 +40,18 @@
                             class="input_user_confirmation_pin"
                             name="userConfirmationPin"
                             required
-                        />
-                        <p class="user_error_message">
-                            <%= user_error_message %>
-                        </p>
-                    </div>
-                    <input
-                        type="submit"
-                        class="button_green"
-                        id="register_btn"
-                        value="register"
-                    />
-                </div>
-            </form>
-        </section>
-        <script src="./assets/script.js"></script>
-    </body>
+                        /> -->
+            <p class="user_error_message"><%= user_error_message %></p>
+          </div>
+          <input
+            type="submit"
+            class="button_green"
+            id="register_btn"
+            value="register"
+          />
+        </div>
+      </form>
+    </section>
+    <script src="./assets/script.js"></script>
+  </body>
 </html>
