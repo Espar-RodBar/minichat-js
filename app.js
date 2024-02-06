@@ -1,4 +1,5 @@
 const express = require('express')
+
 const ejs = require('ejs')
 const db = require('./mongoDb')
 const cors = require('cors')
@@ -19,16 +20,12 @@ app.use(express.static('public'))
 // routers
 const usersRoute = require('./routes/userRoute')
 app.use('/', usersRoute)
+const messageRoute = require('./routes/messageRoute')
+app.use('/', usersRoute)
 
-// app.get('/', async (req, res) => {
-//   messageBoard
-//     .find()
-//     .toArray()
-//     .then((messages) => {
-//       res.render('index.ejs', { messages })
-//     })
-//     .catch((error) => console.log(error))
-// })
+app.get('/', (req, res) => {
+  res.status(200).render('index.ejs')
+})
 
 // app.get('/login', async (req, res) => {
 //   res.render('login.ejs')

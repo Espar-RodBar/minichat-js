@@ -1,64 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ChatJS</title>
-        <link rel="stylesheet" href="./assets/style.css" />
-    </head>
-    <body>
-        <section>
-            <header>
-                <h1>ChatJS</h1>
-            </header>
-            <form class="addMsg" action="/addMsg" id="login_form" method="POST">
-                <div class="user">
-                    <label for="user_name">User name:</label>
-                    <input
-                        type="text"
-                        id="user_name"
-                        class="user_name"
-                        name="userName"
-                        required
-                    />
-                </div>
-                <div class="message_wrapper">
-                    <input type="text" id="input-message" name="message" />
-                    <input type="submit" class="button_green" id="msgButton" />
-                </div>
-            </form>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatJS</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>ChatJS</h1>
+    </header>
+    <p>Welcome to ChatJS</p>
 
-            <ul class="text_whiteboard">
-                <% for(let i=0; i < messages.length; i++) {%>
-                <li class="message" data-message-id="<%= messages[i].id %>">
-                    <span class="message_id"><%= messages[i].id %></span>
-                    <span class="message_text"><%= messages[i].text %></span>
-                    <span class="message_user"
-                        ><%= messages[i].userName %></span
-                    >
-                    <span class="message_likes"><%= messages[i].likes %></span>
-                    <span class="message_edit">Edit</span>
-                    <span class="message_delete">DEL</span>
-                </li>
-                <% } %>
-            </ul>
-        </section>
-        <div class="overlay no_display no_visible">
-            <form action="/changeMsg" class="change_msg">
-                <p>Edit the message:</p>
-                <div class="message_wrapper">
-                    <span class="message_id"></span>
-                    <input type="text" id="input-message" name="message" />
-                    <input
-                        type="submit"
-                        class="button_green"
-                        id="msgButton"
-                        value="Cambiar"
-                    />
-                </div>
-                <div class="quit_modal_btn">X</div>
-            </form>
-        </div>
-        <script src="./assets/script.js"></script>
-    </body>
+    <script src="./assets/script.js"></script>
+  </body>
 </html>

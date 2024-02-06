@@ -2,12 +2,12 @@ const express = require('express')
 
 const messageRouter = express.Router()
 
-messageRouter.route('/').get(async (req, res) => {
+messageRouter.route('/chatroom').get(async (req, res) => {
   messageBoard
     .find()
     .toArray()
     .then((messages) => {
-      res.render('index.ejs', { messages })
+      res.render('chatRoom.ejs', { messages })
     })
     .catch((error) => console.log(error))
 })
