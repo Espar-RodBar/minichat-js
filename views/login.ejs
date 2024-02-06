@@ -1,54 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>ChatJS Login</title>
-        <link rel="stylesheet" href="./assets/style.css" />
-    </head>
-    <body>
-        <section>
-            <header>
-                <h1>ChatJS</h1>
-            </header>
-            <form action="/login" class="login_form" method="POST">
-                <div class="login_container">
-                    <div class="user_name_wrapper user_wrapper">
-                        <label for="userName">User name:</label>
-                        <input
-                            type="text"
-                            id="input_user_name"
-                            class="input_user_name"
-                            name="userName"
-                            required
-                        />
-                    </div>
-                    <div class="user_pin_wrapper user_wrapper">
-                        <label for="userPin">Pin:</label>
-                        <input
-                            type="text"
-                            id="input_user_pin"
-                            class="input_user_pin"
-                            name="userPin"
-                            required
-                        />
-                    </div>
-                    <input
-                        type="submit"
-                        class="button_green"
-                        id="login_btn"
-                        value="login"
-                    />
-                </div>
-            </form>
-            <div class="register_wrapper">
-                <p>
-                    If you don't have an user, go to
-                    <a href="/register" class="register_link">register user</a>
-                    page!
-                </p>
-            </div>
-        </section>
-        <script src="./assets/script.js"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatJS Login</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <section>
+      <header>
+        <h1>ChatJS</h1>
+      </header>
+      <form action="/login" class="login_form" method="POST">
+        <div class="login_container">
+          <div class="user_name_wrapper user_wrapper">
+            <label for="userName">User name:</label>
+            <input
+              type="text"
+              id="input_user_name"
+              class="input_user_name"
+              name="userName"
+              required
+            />
+          </div>
+          <div class="user_pin_wrapper user_wrapper">
+            <label for="userPin">Pin:</label>
+            <input
+              type="text"
+              id="input_user_pin"
+              class="input_user_pin"
+              name="password"
+            />
+          </div>
+          <input
+            type="submit"
+            class="button_green"
+            id="login_btn"
+            value="login"
+          />
+        </div>
+      </form>
+      <div class="register_wrapper">
+        <p>
+          If you don't have an user, go to
+          <a href="/register" class="register_link">register user</a>
+          page!
+        </p>
+      </div>
+    </section>
+    <script src="./assets/script.js"></script>
+  </body>
 </html>

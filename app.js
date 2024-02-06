@@ -1,6 +1,6 @@
 const express = require('express')
 const ejs = require('ejs')
-//const db = require('./mongoDb')
+const db = require('./mongoDb')
 const cors = require('cors')
 
 // conection to DB
@@ -17,8 +17,8 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // routers
-const userRoute = require('./routes/userRoute')
-app.use('/', userRoute)
+const usersRoute = require('./routes/userRoute')
+app.use('/', usersRoute)
 
 // app.get('/', async (req, res) => {
 //   messageBoard
