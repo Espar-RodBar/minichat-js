@@ -21,7 +21,7 @@ app.use(express.static('public'))
 const usersRoute = require('./routes/userRoute')
 app.use('/', usersRoute)
 const messageRoute = require('./routes/messageRoute')
-app.use('/', usersRoute)
+app.use('/messages', messageRoute)
 
 app.get('/', (req, res) => {
   res.status(200).render('index.ejs')

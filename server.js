@@ -6,7 +6,8 @@ const dotenv = require('dotenv')
 const result = dotenv.config()
 const PORT = process.env.PORT || '2121'
 
-const server = Server(app)
+const server = createServer(app)
+const io = new Server(server)
 
 io.on('connection', () => {
   console.log('User connected')
