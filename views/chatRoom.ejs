@@ -12,16 +12,10 @@
             <header>
                 <h1>ChatJS</h1>
             </header>
-            <form class="addMsg" action="/addMsg" id="login_form" method="POST">
+            <form class="addMsg"  id="login_form" method="POST">
                 <div class="user">
-                    <label for="user_name">User name:</label>
-                    <input
-                        type="text"
-                        id="user_name"
-                        class="user_name"
-                        name="userName"
-                        required
-                    />
+                    <label for="user_name">User name:<span></span></label>
+                   
                 </div>
                 <div class="message_wrapper">
                     <input type="text" id="input-message" name="message" />
@@ -60,11 +54,7 @@
                 <div class="quit_modal_btn">X</div>
             </form>
         </div>
-        <script src="./assets/script.js"></script>
-        <script src="https://cdn.socket.io/4.7.4/socket.io.min.js">
-        </script>
-        <script>
-            const socket = io() 
-        </script>
+        <script type='module' src="./assets/script.js"></script>
+       
     </body>
 </html>
