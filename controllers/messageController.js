@@ -1,13 +1,21 @@
 const messageModel = require('../models/messageModel')
 
 exports.getMessages = async (req, res) => {
-  messageModel
-    .find()
-    .toArray()
-    .then((messages) => {
-      res.render('chatRoom.ejs', { messages })
-    })
-    .catch((error) => console.log(error))
+  try {
+  } catch (error) {
+    console.log(error)
+  }
+  const messages = []
+  const message = {}
+  message.id = 1
+  message.text = 'hola q hase'
+  message.userName = 'yo'
+  message.likes = 0
+  // messageModel
+  //   .find()
+  //   .toArray()
+  //   .then((messages) => {})
+  res.render('chatRoom.ejs', { messages })
 }
 
 exports.sendMessage = (req, res) => {
