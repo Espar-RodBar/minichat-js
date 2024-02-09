@@ -1,4 +1,5 @@
 const express = require('express')
+
 const ejs = require('ejs')
 const db = require('./mongoDb')
 const cors = require('cors')
@@ -19,65 +20,12 @@ app.use(express.static('public'))
 // routers
 const usersRoute = require('./routes/userRoute')
 app.use('/', usersRoute)
+const messageRoute = require('./routes/messageRoute')
+app.use('/messages', messageRoute)
 
-// app.get('/', async (req, res) => {
-//   messageBoard
-//     .find()
-//     .toArray()
-//     .then((messages) => {
-//       res.render('index.ejs', { messages })
-//     })
-//     .catch((error) => console.log(error))
-// })
-
-// app.get('/login', async (req, res) => {
-//   res.render('login.ejs')
-// })
-
-// app.post('/login', (req, res) => {
-//   const { user, pin } = req.body
-//   users
-//     .findOne({ name: user, pin })
-//     .then((result) => console.log('user found'))
-//     .catch((err) => console.log('login error: ', err))
-//   res.redirect('/')
-// })
-
-// app.get('/register', async (req, res) => {
-//   user_error_message = ''
-//   res.render('register.ejs', { user_error_message })
-// })
-
-// app.post('/register_user', (req, res) => {
-//   const { userName, userPin, userConfirmationPin } = req.body
-
-//   if (userPin !== userConfirmationPin) {
-//     user_error_message = "pin doesn't match"
-//     res.render('register.ejs', { user_error_message })
-//   } else {
-//     const user = {
-//       id: idGenerator(),
-//       name: userName,
-//       pin: userPin,
-//     }
-//     users.insertOne(user).then((result) => console.log(result))
-//     res.render('login.ejs')
-//   }
-// })
-
-// app.post('/addMsg', (req, res) => {
-//   const newId = idGenerator()
-//   const msg = {
-//     id: newId,
-//     userId: '0',
-//     userName: req.body.userName,
-//     text: req.body.message,
-//     likes: 0,
-//   }
-//   messageBoard.insertOne(msg).then((result) => console.log(result))
-
-//   res.redirect('/')
-// })
+app.get('/', (req, res) => {
+  res.status(200).render('index.ejs')
+})
 
 app.put('/addOneLike', (req, res) => {
   const messageId = Number(req.body['id'])
@@ -96,10 +44,6 @@ app.put('/addOneLike', (req, res) => {
     })
     .catch((err) => res.status(500).json(err))
 })
-
-// TODO: Add edit msg function
-
-// end TODO
 
 app.delete('/deleteMsg', (req, res) => {
   const messageId = Number(req.body['id'])
