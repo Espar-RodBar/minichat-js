@@ -1,4 +1,5 @@
 const messageModel = require('../models/messageModel')
+const saveMessage = require('../helpers/saveMessage')
 
 exports.getMessages = async (req, res) => {
   try {
@@ -19,14 +20,6 @@ exports.getMessages = async (req, res) => {
 }
 
 exports.sendMessage = (req, res) => {
-  const msg = {
-    id: newId,
-    userId: '0',
-    userName: req.body.userName,
-    text: req.body.message,
-    likes: 0,
-  }
-  messageModel.insertOne(msg).then((result) => console.log(result))
-
+  saveMessage(req.body.message, messageModel, req.body.userId)
   res.redirect('/')
 }

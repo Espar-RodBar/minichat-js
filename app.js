@@ -45,10 +45,6 @@ app.put('/addOneLike', (req, res) => {
     .catch((err) => res.status(500).json(err))
 })
 
-// TODO: Add edit msg function
-
-// end TODO
-
 app.delete('/deleteMsg', (req, res) => {
   const messageId = Number(req.body['id'])
 

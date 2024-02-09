@@ -104,7 +104,16 @@ Array.from(deleteTextEls).forEach((el) =>
 Array.from(likeEls).forEach((el) => el.addEventListener('click', addLike))
 
 socket.on('chat message', (msg) => {
-  const htmlMsg = `<li><span class="message_text">${msg} </span></li>`
+  console.log(msg)
+  const htmlMsg = `<li class="message" data-message-id="${msg._id}">
+  <span class="message_id">${msg.id}</span>
+  <span class="message_text">${msg.text}</span>
+  <span class="message_user"
+      >${msg.userName}</span
+  >
+  <span class="message_likes">${msg.likes}</span>
+ 
+</li>`
   document
     .querySelector('.text_whiteboard')
     .insertAdjacentHTML('beforeend', htmlMsg)
