@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const userSchema = mongoose.Schema({
   userName: {
@@ -9,6 +10,14 @@ const userSchema = mongoose.Schema({
   password: {
     type: String,
   },
+})
+
+// hashing middleware
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next()
+  this.password = await bcrypt.hash(this.password, 12)
+  console.log('pre save password', this.password)
+  next()
 })
 
 module.exports = mongoose.model('User', userSchema)
