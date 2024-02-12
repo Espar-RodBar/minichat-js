@@ -1,6 +1,6 @@
 const Users = require('../models/userModel')
 
-exports.signIndex = (req, res) => {
+exports.signIn = (req, res) => {
   res.render('login.ejs')
 }
 

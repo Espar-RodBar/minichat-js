@@ -12,6 +12,10 @@ const userSchema = mongoose.Schema({
   },
 })
 
+userSchema.methods.correctPassword = function (candidatePassword) {
+  return bcrypt.compareSync(candidatePassword, this.password)
+}
+
 // hashing middleware
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next()
