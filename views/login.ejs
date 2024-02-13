@@ -39,6 +39,9 @@
             value="login"
           />
         </div>
+        <% if (Error) { %>
+          <div class="error"><%= Error %></div>
+        <% } %>
       </form>
       <div class="register_wrapper">
         <p>

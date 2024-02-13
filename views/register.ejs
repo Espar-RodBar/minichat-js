@@ -41,7 +41,6 @@
                             name="userConfirmationPin"
                             required
                         /> -->
-            <p class="user_error_message"><%= user_error_message %></p>
           </div>
           <input
             type="submit"
@@ -50,6 +49,10 @@
             value="register"
           />
         </div>
+        <% if (error.status) { %>
+          <div class="error"><%= error.message %></div>
+        <% } %>
+        
       </form>
     </section>
     <!-- <script src="./assets/script.js"></script> -->

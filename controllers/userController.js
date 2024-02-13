@@ -1,7 +1,8 @@
 const Users = require('../models/userModel')
 
 exports.signIn = (req, res) => {
-  res.render('login.ejs')
+  error = { message: '' }
+  res.render('login.ejs', error)
 }
 
 // exports.signIn = async (req, res) => {
@@ -16,8 +17,8 @@ exports.signIn = (req, res) => {
 // }
 
 exports.signUpIndex = (req, res) => {
-  user_error_message = ''
-  res.render('register.ejs', { user_error_message })
+  const error = { status: false, message: '' }
+  res.render('register.ejs', { error })
 }
 
 // exports.signUp = async (req, res) => {
