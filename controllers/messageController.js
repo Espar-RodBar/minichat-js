@@ -9,8 +9,3 @@ exports.getMessages = async (req, res) => {
     console.log(error)
   }
 }
-
-exports.sendMessage = (req, res) => {
-  saveMessage(req.body.message, messageModel, req.body.userId)
-  res.redirect('/')
-}

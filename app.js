@@ -4,9 +4,8 @@ const ejs = require('ejs')
 const db = require('./mongoDb')
 const cors = require('cors')
 
-// conection to DB
-// const users = db.collection('user')
-// const messageBoard = db.collection('messages')
+const usersRoute = require('./routes/userRoute')
+const messageRoute = require('./routes/messageRoute')
 
 const app = express()
 
@@ -18,41 +17,25 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
 
 // routers
-const usersRoute = require('./routes/userRoute')
-app.use('/', usersRoute)
-const messageRoute = require('./routes/messageRoute')
-app.use('/messages', messageRoute)
+app.use('/api/user', usersRoute)
+app.use('/api/messages', messageRoute)
 
+// views
 app.get('/', (req, res) => {
   res.status(200).render('index.ejs')
+})
+app.get('/login', (req, res) => {
+  res.status(200).render('login.ejs')
+})
+app.get('/create_account', (req, res) => {
+  res.status(200).render('register.ejs')
+})
+app.get('/chat_room', (req, res) => {
+  res.status(200).render('chatRoom.ejs')
 })
 
 app.put('/addOneLike', (req, res) => {
   const messageId = Number(req.body['id'])
-
-  messageBoard
-    .findOne({ id: messageId })
-    .then((msg) => {
-      return msg.likes
-    })
-    .then((like) => {
-      messageBoard
-        .findOneAndUpdate({ id: messageId }, { $set: { likes: like + 1 } })
-        .then((result) => {
-          res.status(200).json('+1 like')
-        })
-    })
-    .catch((err) => res.status(500).json(err))
-})
-
-app.delete('/deleteMsg', (req, res) => {
-  const messageId = Number(req.body['id'])
-
-  console.log('Deleting...' + messageId)
-
-  messageBoard.findOneAndDelete({ id: messageId })
-
-  res.status(200).json('Message deleted')
 })
 
 // let messageBoard = [];

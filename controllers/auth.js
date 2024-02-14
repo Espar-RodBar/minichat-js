@@ -23,8 +23,8 @@ exports.signUp = async (req, res) => {
 
     const user = await User.create({ userName, password })
 
-    const token = `Bearer ${signToken(user._id)}`
-    // res.status(201).redirect('/messages')
+    const token = `${signToken(user._id)}`
+
     res.cookie('jwt', token, {
       expires: new Date(
         Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
@@ -32,7 +32,7 @@ exports.signUp = async (req, res) => {
       secure: true,
       httpOnly: true,
     })
-    res.status(201).json({ status: 'success', data: { user } })
+    res.status(201).json({ status: 'success', token, data: { user } })
   } catch (err) {
     console.log(err)
     throw new Error('Signup error:', err)
@@ -59,7 +59,7 @@ exports.signIn = async (req, res) => {
     }
 
     // 3.- send token
-    const token = `Bearer ${signToken(user._id)}`
+    const token = `${signToken(user._id)}`
 
     res.cookie('jwt', token, {
       expires: new Date(
@@ -69,8 +69,7 @@ exports.signIn = async (req, res) => {
       httpOnly: true,
     })
 
-    // req.headers.authorization = `Bearer ${token}`
-    res.status(200).json({ status: 'success' })
+    res.status(200).json({ status: 'success', token })
   } catch (err) {
     console.log('login error: ', err)
   }
@@ -91,7 +90,7 @@ exports.protect = async (req, res, next) => {
   if (token == (undefined || null)) {
     // User or password incorrect, error 401
     error.message = 'user not loged.'
-    res.status(401).render('login.ejs', error)
+    res.status(401).json({ status: 'fail', message: 'user  not loged.' })
   }
 
   // 2.- Verification token
@@ -102,7 +101,7 @@ exports.protect = async (req, res, next) => {
   const tokenUser = await User.findById(decoded.id)
   if (!tokenUser) {
     error.message = 'user token not valid.'
-    res.status(401).render('login.ejs', error)
+    res.status(401).json({ status: 'fail', message: 'user token not valid.' })
   }
 
   console.log('on protect', token)
