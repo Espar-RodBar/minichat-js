@@ -11,7 +11,7 @@
       <header>
         <h1>ChatJS</h1>
       </header>
-      <form action="/signup" class="register_form" method="POST">
+      <form class="register_form" method="POST">
         <div class="register_container">
           <div class="user_name_wrapper user_wrapper">
             <label for="userName">User name:</label>
@@ -31,16 +31,6 @@
               class="input_user_pin"
               name="password"
             />
-            <!-- <label for="userConfirmationPin"
-                            >Pin confirmation:</label
-                        >
-                        <input
-                            type="text"
-                            id="input_user_pin"
-                            class="input_user_confirmation_pin"
-                            name="userConfirmationPin"
-                            required
-                        /> -->
           </div>
           <input
             type="submit"
@@ -49,12 +39,10 @@
             value="register"
           />
         </div>
-        <% if (error.status) { %>
-          <div class="error"><%= error.message %></div>
-        <% } %>
-        
+
+        <div class="error"></div>
       </form>
     </section>
-    <!-- <script src="./assets/script.js"></script> -->
+    <script src="./assets/register.js"></script>
   </body>
 </html>

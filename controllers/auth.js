@@ -9,20 +9,18 @@ const signToken = (id) => {
 }
 
 exports.signUp = async (req, res) => {
+  console.log(req)
   try {
     const { userName, password } = req.body
     if (!userName.trim()) {
-      res.status(401).render('register.ejs', {
-        error: { status: true, message: 'Provide username' },
-      })
+      res.status(401).json({ status: 'fail', message: 'Provide username' })
     } else if (await User.findOne({ userName })) {
-      res.status(400).render('register.ejs', {
-        error: { status: true, message: 'user exist' },
-      })
+      res
+        .status(400)
+        .json({ status: 'fail', message: `<${userName}> user exist` })
     }
 
     const user = await User.create({ userName, password })
-
     const token = `${signToken(user._id)}`
 
     res.cookie('jwt', token, {
@@ -34,8 +32,7 @@ exports.signUp = async (req, res) => {
     })
     res.status(201).json({ status: 'success', token, data: { user } })
   } catch (err) {
-    console.log(err)
-    throw new Error('Signup error:', err)
+    console.log('signup error:', err)
   }
 }
 

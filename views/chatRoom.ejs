@@ -32,29 +32,12 @@
                         ><%= messages[i].userName %></span
                     >
                     <span class="message_likes"><%= messages[i].likes %></span>
-                    <!-- <span class="message_edit">Edit</span>
-                    <span class="message_delete">DEL</span> -->
                 </li>
                 <% } %>
             </ul>
         </section>
-        <div class="overlay no_display no_visible">
-            <form action="/changeMsg" class="change_msg">
-                <p>Edit the message:</p>
-                <div class="message_wrapper">
-                    <span class="message_id"></span>
-                    <input type="text" id="input-message" name="message" />
-                    <input
-                        type="submit"
-                        class="button_green"
-                        id="msgButton"
-                        value="Cambiar"
-                    />
-                </div>
-                <div class="quit_modal_btn">X</div>
-            </form>
-        </div>
-        <script type='module' src="./assets/script.js"></script>
+        
+        <script type='module' src="./assets/chatroom.js"></script>
        
     </body>
 </html>

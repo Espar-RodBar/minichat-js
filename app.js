@@ -1,5 +1,6 @@
 const express = require('express')
 
+const loger = require('morgan')
 const ejs = require('ejs')
 const db = require('./mongoDb')
 const cors = require('cors')
@@ -11,6 +12,7 @@ const app = express()
 
 // Middleware
 app.use(cors())
+app.use(loger('dev'))
 app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -32,10 +34,6 @@ app.get('/create_account', (req, res) => {
 })
 app.get('/chat_room', (req, res) => {
   res.status(200).render('chatRoom.ejs')
-})
-
-app.put('/addOneLike', (req, res) => {
-  const messageId = Number(req.body['id'])
 })
 
 // let messageBoard = [];
