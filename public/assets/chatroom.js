@@ -33,7 +33,6 @@ addMsgForm.addEventListener('submit', sendMessage)
 document.addEventListener('DOMContentLoaded', async (e) => {
   try {
     const response = await fetch('http://localhost:3000/api/messages')
-    console.log(response.status, response.ok)
     if (response.ok) {
       const responseParsed = await response.json()
       const { messages } = responseParsed.data
@@ -51,7 +50,8 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       }
     } else {
       console.log('failed fetching messages', response.status)
-      console.log(response)
+      const data = await response.json()
+      console.log(data.message)
     }
   } catch (err) {
     console.log('catch error')

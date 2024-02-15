@@ -92,11 +92,11 @@ exports.protect = async (req, res, next) => {
     token = cookie
   }
 
-  console.log(token)
+  console.log('on protect:', token)
   if (token == (undefined || null)) {
     // User or password incorrect, error 401
     error.message = 'user not loged.'
-    res.status(401).json({ status: 'fail', message: 'user  not loged.' })
+    return res.status(401).json({ status: 'fail', message: 'user  not loged.' })
   }
 
   // 2.- Verification token
