@@ -4,7 +4,7 @@ const saveMessage = require('../helpers/saveMessage')
 exports.getMessages = async (req, res) => {
   try {
     const messages = await messageModel.find()
-    res.render('chatRoom.ejs', { messages })
+    res.status(200).json({ status: 'success', data: { messages } })
   } catch (error) {
     console.log(error)
   }

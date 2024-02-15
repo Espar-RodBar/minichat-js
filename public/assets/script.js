@@ -1,9 +1,5 @@
 //setInterval(() => location.reload(), 50000);
 
-const likeEls = document.querySelectorAll('.message_likes')
-const addMsgForm = document.querySelector('.addMsg')
-const inputForm = document.querySelector('#input-message')
-
 async function addLike() {
   const messageId = this.parentNode.dataset.messageId
   try {

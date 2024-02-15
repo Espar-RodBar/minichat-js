@@ -11,11 +11,12 @@ const signToken = (id) => {
 exports.signUp = async (req, res) => {
   console.log(req)
   try {
-    const { userName, password } = req.body
-    if (!userName.trim()) {
+    const userName = req.body.userName.trim()
+    const password = req.body.password
+    if (!userName) {
       res.status(401).json({ status: 'fail', message: 'Provide username' })
     } else if (await User.findOne({ userName })) {
-      res
+      return res
         .status(400)
         .json({ status: 'fail', message: `<${userName}> user exist` })
     }
@@ -30,7 +31,7 @@ exports.signUp = async (req, res) => {
       secure: true,
       httpOnly: true,
     })
-    res.status(201).json({ status: 'success', token, data: { user } })
+    return res.status(201).json({ status: 'success', token, data: { user } })
   } catch (err) {
     console.log('signup error:', err)
   }
@@ -38,19 +39,24 @@ exports.signUp = async (req, res) => {
 
 exports.signIn = async (req, res) => {
   try {
-    const { userName, password } = req.body
-
+    const userName = req.body.userName.trim()
+    const password = req.body.password
+    console.log(userName)
     // 1.- check if there is a name
     if (!userName) {
       // provide username error 400
-      res.status(400).json({ status: 'fail', message: 'no username provided.' })
+      console.log('no user name')
+      return res
+        .status(400)
+        .json({ status: 'fail', message: 'no username provided.' })
     }
     // 2.- Check user name and password/hash
     const user = await User.findOne({ userName })
 
     if (!user || !user.correctPassword(password)) {
       // User or password incorrect, error 401
-      res
+      console.log('user incorrect')
+      return res
         .status(401)
         .json({ status: 'fail', message: 'user o pass incorrect.' })
     }
@@ -66,7 +72,7 @@ exports.signIn = async (req, res) => {
       httpOnly: true,
     })
 
-    res.status(200).json({ status: 'success', token })
+    return res.status(200).json({ status: 'success', token })
   } catch (err) {
     console.log('login error: ', err)
   }
@@ -74,7 +80,7 @@ exports.signIn = async (req, res) => {
 
 exports.protect = async (req, res, next) => {
   error = { message: '' }
-  console.log('protect headers:', req.headers.cookie)
+  const cookie = req.cookies.jwt
   // 1.- Get token and if exist
   let token
   if (
@@ -82,7 +88,10 @@ exports.protect = async (req, res, next) => {
     req.headers.authorization.startsWidth('Bearer')
   ) {
     token = req.headers.authorization.split('Bearer ')[1]
+  } else if (cookie) {
+    token = cookie
   }
+
   console.log(token)
   if (token == (undefined || null)) {
     // User or password incorrect, error 401

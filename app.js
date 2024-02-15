@@ -4,6 +4,7 @@ const loger = require('morgan')
 const ejs = require('ejs')
 const db = require('./mongoDb')
 const cors = require('cors')
+const cookies = require('cookie-parser')
 
 const usersRoute = require('./routes/userRoute')
 const messageRoute = require('./routes/messageRoute')
@@ -12,6 +13,7 @@ const app = express()
 
 // Middleware
 app.use(cors())
+app.use(cookies())
 app.use(loger('dev'))
 app.set('view engine', 'ejs')
 app.use(express.json())
