@@ -11,7 +11,7 @@
       <header>
         <h1>ChatJS</h1>
       </header>
-      <form action="/login" class="login_form" method="POST">
+      <form class="login_form" method="POST">
         <div class="login_container">
           <div class="user_name_wrapper user_wrapper">
             <label for="userName">User name:</label>
@@ -39,9 +39,7 @@
             value="login"
           />
         </div>
-        <% if (Error) { %>
-          <div class="error"><%= Error %></div>
-        <% } %>
+        <div class="error"></div>
       </form>
       <div class="register_wrapper">
         <p>
