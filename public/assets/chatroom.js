@@ -2,6 +2,8 @@ import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
 const addMsgForm = document.querySelector('.addMsg')
 const likeEls = document.querySelectorAll('.message_likes')
 const inputForm = document.querySelector('#input-message')
+
+const baseUrl = window.location.origin
 const socket = io()
 
 function sendMessage(e) {
@@ -32,7 +34,7 @@ socket.on('chat message', (msg) => {
 addMsgForm.addEventListener('submit', sendMessage)
 document.addEventListener('DOMContentLoaded', async (e) => {
   try {
-    const response = await fetch('http://localhost:3000/api/messages')
+    const response = await fetch(`${baseUrl}/api/messages`)
     if (response.ok) {
       const responseParsed = await response.json()
       const { messages } = responseParsed.data
@@ -52,6 +54,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       console.log('failed fetching messages', response.status)
       const data = await response.json()
       console.log(data.message)
+      window.location.href = baseUrl + '/login'
     }
   } catch (err) {
     console.log('catch error')

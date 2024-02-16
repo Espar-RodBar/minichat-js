@@ -14,7 +14,7 @@ form.addEventListener('submit', async function (e) {
   userNameEl.value = passwordEl.value = ''
 
   // const userRequest = new Request()
-  const response = await fetch('http://localhost:3000/api/user/login', {
+  const response = await fetch(`${baseUrl}/api/user/login`, {
     method: 'POST',
     mode: 'cors',
     headers: {
@@ -28,6 +28,7 @@ form.addEventListener('submit', async function (e) {
     errorEl.textContent = data.message
   } else if (data.status === 'success') {
     errorEl.textContent = ''
+    window.location.href = baseUrl + '/chatroom'
   }
   console.log(data)
 })

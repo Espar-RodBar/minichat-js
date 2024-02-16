@@ -12,7 +12,7 @@ form.addEventListener('submit', async function (e) {
   const password = passwordEl.value
   userNameEl.value = passwordEl.value = ''
   // const userRequest = new Request()
-  const response = await fetch('http://localhost:3000/api/user/signup', {
+  const response = await fetch(`${baseUrl}/api/user/signup`, {
     method: 'POST',
     mode: 'cors',
     headers: {

@@ -34,7 +34,7 @@ app.get('/login', (req, res) => {
 app.get('/create_account', (req, res) => {
   res.status(200).render('register.ejs')
 })
-app.get('/chat_room', (req, res) => {
+app.get('/chatroom', (req, res) => {
   res.status(200).render('chatRoom.ejs')
 })
 
