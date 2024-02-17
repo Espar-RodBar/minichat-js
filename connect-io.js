@@ -1,6 +1,9 @@
 const { Server } = require('socket.io')
-const messageModel = require('./models/messageModel')
+const MessageModel = require('./models/messageModel')
+const User = require('./models/userModel')
 const saveMessage = require('./helpers/saveMessage')
+const jwt = require('jsonwebtoken')
+const { promisify } = require('util')
 
 module.exports = function (server) {
   const io = new Server(server, {
@@ -10,16 +13,33 @@ module.exports = function (server) {
   })
 
   io.on('connection', (socket) => {
-    console.log('User connected', socket.handshake.headers.cookie)
+    const cookies = socket.handshake.headers.cookie
+      .split(';')
+      .reduce((obj, el) => {
+        const keyVal = el.split('=').map((el) => el.trim())
+        obj[`${keyVal[0]}`] = keyVal[1]
+        return obj
+      }, {})
     socket.on('disconnect', () => {
       console.log('User disconnected')
     })
     socket.on('client message', async (msg) => {
       try {
-        console.log('client message', msg)
-        const result = await saveMessage(msg, messageModel)
+        // 1.- Decode the token
+        const decoded = await promisify(jwt.verify)(
+          cookies['jwt'],
+          process.env.JWT_SECRET
+        )
 
-        console.log(result)
+        // 2. find user in db
+        let tokenUser = await User.findById(decoded.id)
+
+        // 3.- Create the msg in db with the user
+
+        console.log('user:', tokenUser._id)
+        const result = await saveMessage(msg, MessageModel, tokenUser.id)
+
+        console.log('msg:', result)
         io.emit('server message', result)
       } catch (e) {
         console.log(e)
