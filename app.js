@@ -38,21 +38,4 @@ app.get('/chatroom', (req, res) => {
   res.status(200).render('chatRoom.ejs')
 })
 
-// let messageBoard = [];
-// user format
-// const user = {
-//     id: "0",
-//     name: "Espar",
-//     pin: "0000",
-// };
-
-// message format
-// const message = {
-//     _id: "0",
-//     userId: "0",
-//     userName: "Espar",
-//     text: "ola k ase?",
-//     likes: 0,
-// };
-
 module.exports = app

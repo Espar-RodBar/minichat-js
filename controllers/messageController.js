@@ -1,5 +1,4 @@
 const messageModel = require('../models/messageModel')
-const saveMessage = require('../helpers/saveMessage')
 
 exports.getMessages = async (req, res) => {
   try {

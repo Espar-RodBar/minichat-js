@@ -10,15 +10,17 @@ module.exports = function (server) {
   })
 
   io.on('connection', (socket) => {
-    console.log('User connected')
+    console.log('User connected', socket.handshake.headers.cookie)
     socket.on('disconnect', () => {
       console.log('User disconnected')
     })
-    socket.on('chat message', async (msg) => {
+    socket.on('client message', async (msg) => {
       try {
+        console.log('client message', msg)
         const result = await saveMessage(msg, messageModel)
+
         console.log(result)
-        io.emit('chat message', result)
+        io.emit('server message', result)
       } catch (e) {
         console.log(e)
       }

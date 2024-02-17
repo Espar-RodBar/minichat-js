@@ -41,7 +41,6 @@ exports.signIn = async (req, res) => {
   try {
     const userName = req.body.userName.trim()
     const password = req.body.password
-    console.log(userName)
     // 1.- check if there is a name
     if (!userName) {
       // provide username error 400
@@ -92,7 +91,6 @@ exports.protect = async (req, res, next) => {
     token = cookie
   }
 
-  console.log('on protect:', token)
   if (token == (undefined || null)) {
     // User or password incorrect, error 401
     error.message = 'user not loged.'
@@ -110,7 +108,6 @@ exports.protect = async (req, res, next) => {
     res.status(401).json({ status: 'fail', message: 'user token not valid.' })
   }
 
-  console.log('on protect', token)
   req.user = tokenUser
   next()
 }

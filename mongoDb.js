@@ -11,9 +11,3 @@ module.exports = mongoose
   })
   .then(() => console.log('DB connection succesful'))
   .catch((err) => console.log('ERROR on DB connection', err))
-
-// const client = new MongoClient(dbConnectionStr, {
-//   useUnifiedTopology: true,
-// })
-
-//module.exports = client.db('ClusterChatJS')
