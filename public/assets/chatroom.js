@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       window.location.href = baseUrl + '/login'
     }
   } catch (err) {
-    console.log('catch error')
+    console.log('catch error:', err)
   }
 })
 

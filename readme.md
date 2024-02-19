@@ -26,6 +26,5 @@ In a first moment, i built this app as a rest api, without sockets, and realoadi
 
 ## TODO:
 
-- Show the name of the user when logged in.
-- In the chatroom, show the name of who sent the message.
+- Implement the logout function
 - Implement a like function for every message.
