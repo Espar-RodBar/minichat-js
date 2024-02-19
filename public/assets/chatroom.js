@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         const htmlMsg = `<li class="message" data-message-id="${messages[i]._id}">
         <span class="message_id">${messages[i].id}</span>
         <span class="message_text">${messages[i].text}</span>
-        <span class="message_user">${messages[i].userName}</span>
+        <span class="message_user">${messages[i].user.userName}</span>
         <span class="message_likes">${messages[i].likes}</span>
         </li>`
         document

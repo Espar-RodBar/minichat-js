@@ -36,10 +36,8 @@ module.exports = function (server) {
 
         // 3.- Create the msg in db with the user
 
-        console.log('user:', tokenUser._id)
         const result = await saveMessage(msg, MessageModel, tokenUser.id)
 
-        console.log('msg:', result)
         io.emit('server message', result)
       } catch (e) {
         console.log(e)

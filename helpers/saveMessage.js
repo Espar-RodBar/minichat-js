@@ -4,7 +4,6 @@ module.exports = async function (message, messageModel, userId) {
     text: message,
     likes: 0,
   }
-  console.log('on save msg:', msg)
   try {
     const result = await messageModel(msg)
     result.save()
