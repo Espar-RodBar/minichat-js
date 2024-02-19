@@ -11,6 +11,13 @@
       <header>
         <h1>ChatJS</h1>
       </header>
+      <% if (user) { %>
+        <p>Hello again <%= user %> </p>
+        
+        <a href="/chatroom">Let's chat again!</a>
+      <% } %>
+
+      <% if (!user) { %>
       <form class="register_form" method="POST">
         <div class="register_container">
           <div class="user_name_wrapper user_wrapper">
@@ -42,6 +49,14 @@
 
         <div class="error"></div>
       </form>
+      <div class="register_wrapper">
+        <p>
+          If you  have an user, go to
+          <a href="/login" class="register_link">to login</a>
+          page!
+        </p>
+      </div>
+      <% } %>
     </section>
     <script src="./assets/register.js"></script>
   </body>

@@ -41,7 +41,6 @@ exports.signIn = async (req, res) => {
   try {
     const userName = req.body.userName.trim()
     const password = req.body.password
-    console.log(userName)
     // 1.- check if there is a name
     if (!userName) {
       // provide username error 400
@@ -92,7 +91,6 @@ exports.protect = async (req, res, next) => {
     token = cookie
   }
 
-  console.log('on protect:', token)
   if (token == (undefined || null)) {
     // User or password incorrect, error 401
     error.message = 'user not loged.'
@@ -101,7 +99,6 @@ exports.protect = async (req, res, next) => {
 
   // 2.- Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-  console.log('result protect validation:', decoded)
 
   // 3.- Check if user exist
   const tokenUser = await User.findById(decoded.id)
@@ -110,7 +107,26 @@ exports.protect = async (req, res, next) => {
     res.status(401).json({ status: 'fail', message: 'user token not valid.' })
   }
 
-  console.log('on protect', token)
   req.user = tokenUser
+  next()
+}
+
+exports.isLoggedIn = async (req, res, next) => {
+  const cookie = req.cookies.jwt
+
+  if (cookie) {
+    token = cookie
+
+    // 1.- Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+
+    // 2.- Check if user exist
+    const tokenUser = await User.findById(decoded.id)
+    if (!tokenUser) return next()
+
+    // 3.- user logged
+    res.locals.user = tokenUser
+    return next()
+  }
   next()
 }

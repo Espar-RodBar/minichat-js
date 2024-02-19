@@ -1,6 +1,6 @@
-module.exports = async function (message, messageModel, userId = '0') {
+module.exports = async function (message, messageModel, userId) {
   const msg = {
-    userId,
+    user: userId,
     text: message,
     likes: 0,
   }

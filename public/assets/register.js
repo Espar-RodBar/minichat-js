@@ -27,5 +27,4 @@ form.addEventListener('submit', async function (e) {
   } else if (data.status === 'success') {
     errorEl.textContent = ''
   }
-  console.log(data)
 })

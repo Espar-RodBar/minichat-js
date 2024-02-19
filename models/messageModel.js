@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const messageSchema = mongoose.Schema({
   text: String,
   deleted: { type: Boolean, default: false },
-  user: { type: mongoose.Types.ObjectId, ref: 'User' },
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' },
   likes: { type: Number, default: 0 },
 })
 

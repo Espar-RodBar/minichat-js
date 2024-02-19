@@ -8,6 +8,7 @@ const cookies = require('cookie-parser')
 
 const usersRoute = require('./routes/userRoute')
 const messageRoute = require('./routes/messageRoute')
+const viewRoute = require('./routes/viewRoute')
 
 const app = express()
 
@@ -23,36 +24,21 @@ app.use(express.static('public'))
 // routers
 app.use('/api/user', usersRoute)
 app.use('/api/messages', messageRoute)
+app.use('/', viewRoute)
 
 // views
-app.get('/', (req, res) => {
-  res.status(200).render('index.ejs')
-})
-app.get('/login', (req, res) => {
-  res.status(200).render('login.ejs')
-})
-app.get('/create_account', (req, res) => {
-  res.status(200).render('register.ejs')
-})
-app.get('/chatroom', (req, res) => {
-  res.status(200).render('chatRoom.ejs')
-})
+// app.get('/', (req, res) => {
 
-// let messageBoard = [];
-// user format
-// const user = {
-//     id: "0",
-//     name: "Espar",
-//     pin: "0000",
-// };
-
-// message format
-// const message = {
-//     _id: "0",
-//     userId: "0",
-//     userName: "Espar",
-//     text: "ola k ase?",
-//     likes: 0,
-// };
+// })
+// app.get('/login', (req, res) => {
+//   res.status(200).render('login.ejs')
+// })
+// app.get('/create_account', (req, res) => {
+//   res.status(200).render('register.ejs')
+// })
+// app.get('/chatroom', (req, res) => {
+//   console.log(res.locals)
+//   res.status(200).render('chatRoom.ejs')
+// })
 
 module.exports = app
