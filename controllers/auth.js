@@ -99,7 +99,6 @@ exports.protect = async (req, res, next) => {
 
   // 2.- Verification token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
-  console.log('result protect validation:', decoded)
 
   // 3.- Check if user exist
   const tokenUser = await User.findById(decoded.id)
@@ -109,5 +108,25 @@ exports.protect = async (req, res, next) => {
   }
 
   req.user = tokenUser
+  next()
+}
+
+exports.isLoggedIn = async (req, res, next) => {
+  const cookie = req.cookies.jwt
+
+  if (cookie) {
+    token = cookie
+
+    // 1.- Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+
+    // 2.- Check if user exist
+    const tokenUser = await User.findById(decoded.id)
+    if (!tokenUser) return next()
+
+    // 3.- user logged
+    res.locals.user = tokenUser
+    return next()
+  }
   next()
 }

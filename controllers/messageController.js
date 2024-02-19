@@ -5,7 +5,6 @@ exports.getMessages = async (req, res) => {
     const messages = await messageModel
       .find()
       .populate({ path: 'user', select: '-__v -password' })
-    console.log(messages)
     res.status(200).json({ status: 'success', data: { messages } })
   } catch (error) {
     console.log(error)

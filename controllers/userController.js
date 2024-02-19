@@ -1,5 +1,3 @@
-const Users = require('../models/userModel')
-
 exports.signIn = (req, res) => {
   error = { message: '' }
   res.render('login.ejs', error)
