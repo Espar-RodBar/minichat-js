@@ -37,6 +37,7 @@ module.exports = function (server) {
         // 3.- Create the msg in db with the user
 
         const result = await saveMessage(msg, MessageModel, tokenUser.id)
+        await result.populate({ path: 'user', select: '-__v -password' })
 
         io.emit('server message', result)
       } catch (e) {

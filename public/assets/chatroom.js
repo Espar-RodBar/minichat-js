@@ -55,7 +55,7 @@ socket.on('server message', (msg) => {
   <span class="message_id">${msg.id}</span>
   <span class="message_text">${msg.text}</span>
   <span class="message_user"
-  >${msg.userName}</span
+  >${msg.user.userName}</span
   >
   <span class="message_likes">${msg.likes}</span>
   
