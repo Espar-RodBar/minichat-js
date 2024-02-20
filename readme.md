@@ -18,13 +18,14 @@ bcrypt for encrypting the passwords, jsonwebtoken and cookie-parser for auth the
 
 As a MVP project a more robust error handling can be implemented.
 For the frontend, is used just ejs, a nice option could be the use of react.
-Another fancy thing could be implement a user profile with an avatar, and more information.
+Another fancy thing could be implement a user profile with an avatar, and more information about the user.
 
 ## Lessons Learned:
 
-In a first moment, i built this app as a rest api, without sockets, and realoading the chat after some seconds. The use of websockets transformed this project in a real chat.
+In a first moment, i built this app as a rest api, without sockets, and realoading the chat after some seconds. The use of websockets transformed this project in a real chat, sending and receiving data as you go.
+
+The creating of an authentication system, with users, hashing the password for security, creating protected routes, and adding persitence on the client, with a authentication token and a cookie while catching possible errors.
 
 ## TODO:
 
-- Implement the logout function
 - Implement a like function for every message.
