@@ -12,6 +12,11 @@ section {
   margin: 5rem auto;
   max-width: 40rem;
 }
+
+section > * {
+  margin-bottom: 1.5rem;
+}
+
 h1 {
   display: block;
   padding: 1rem;
