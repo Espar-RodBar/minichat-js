@@ -1,7 +1,7 @@
 # Minichat-JS
 
 with this app you can chat with your friends, family, or whatever you want! Use tne anonymous account or just create and user and go!
-**Link to project:** http://
+**Link to project:** https://mini-chat-js.onrender.com
 
 ![alt tag](http://placecorgi.com/1200/650)
 
@@ -29,3 +29,4 @@ The creating of an authentication system, with users, hashing the password for s
 ## TODO:
 
 - Implement a like function for every message.
+- Improvement of Ui design
