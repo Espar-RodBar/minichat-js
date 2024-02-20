@@ -9,11 +9,11 @@
   <body>
     <section>
       <header>
-        <h1>ChatJS</h1>
+        <h1>ChatJS - Login</h1>
       </header>
 
       <% if (user) { %>
-        <p>Hello again <%= user %><span id="logout" class="btn_logout">logout</span> </p>
+        <p class="user_name_logout">Hello again <%= user %><span id="logout" class="btn_logout">logout</span> </p>
         
         <a href="/chatroom">Let's chat again!</a>
       <% } %>

@@ -1,3 +1,7 @@
+* {
+  margin: 0;
+  padding: 0;
+}
 html {
   font-size: 62.5%;
   box-sizing: border-box;
@@ -8,6 +12,11 @@ section {
   margin: 5rem auto;
   max-width: 40rem;
 }
+
+section > * {
+  margin-bottom: 1.5rem;
+}
+
 h1 {
   display: block;
   padding: 1rem;
@@ -73,8 +82,8 @@ section > form .error {
 .register_wrapper {
   text-align: center;
 }
-.register_wrapper a:link,
-.register_wrapper a:visited {
+.register_link:link,
+.register_link:visited {
   text-decoration: none;
   border-bottom: 2px solid rgb(255, 217, 0);
   color: rgb(211, 141, 0);
@@ -112,8 +121,9 @@ section > form .error {
 
 .text_whiteboard {
   min-height: 20rem;
+  max-height: 20rem;
   padding: 1rem;
-  list-style: none;
+  overflow: scroll;
   border: 2px solid rgb(255, 217, 0);
   box-shadow:
     0 0 1rem 1px rgba(255, 255, 0, 0.4),
@@ -179,6 +189,12 @@ section > form .error {
 }
 .message_edit:hover {
   background: rgba(255, 191, 0, 0.57);
+}
+
+.user_name_logout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .btn_logout {

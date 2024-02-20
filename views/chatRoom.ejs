@@ -3,26 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ChatJS</title>
+    <title>ChatJS ChatRoom</title>
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
     <section>
       <header>
-        <h1>ChatJS</h1>
+        <h1>ChatJS - Chat room</h1>
       </header>
+      <% if (user) { %>
+        <p class="user_name_logout">User name: <%= user %><span id="logout" class="btn_logout">logout</span> </p>
+      <% } %>
       <form class="addMsg" id="addMsg_form" method="POST">
        
-        <% if (user) { %>
-          <p>User name: <%= user %><span id="logout" class="btn_logout">logout</span> </p>
-        <% } %>
         <div class="message_wrapper">
           <input type="text" id="input-message" name="message" />
           <input type="submit" class="button_green" id="msgButton" />
         </div>
       </form>
 
-      <ul class="text_whiteboard"></ul>
+      <div class="text_whiteboard"></div>
     </section>
 
     <script type="module" src="./assets/chatroom.js"></script>
