@@ -181,7 +181,7 @@ section > form .error {
   background: rgba(255, 191, 0, 0.57);
 }
 
-.message_delete {
+.btn_logout {
   padding: 0.3rem 0.1rem;
   font-size: 0.8rem;
   flex-basis: 10%;
@@ -189,9 +189,9 @@ section > form .error {
   border: 1px solid rgb(141, 0, 0);
   border-radius: 5px;
   cursor: pointer;
-  transition: all 0.5s;
+  transition: background 0.5s;
 }
-.message_delete:hover {
+.btn_logout:hover {
   background: rgba(255, 120, 120, 0.57);
 }
 

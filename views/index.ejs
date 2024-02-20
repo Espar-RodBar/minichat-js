@@ -13,15 +13,17 @@
 
     <h2>Welcome to ChatJS </h2>
     <% if (user) { %>
-      <p>Hello again <%= user %> </p>
+      <p>Hello again <%= user %><span id="logout" class="btn_logout">logout</span> </p>
       
       <a href="/chatroom">Let's chat again!</a>
     <% } %>
+  
 
     <% if (!user) { %>
       <p>To use the chat, first signup or login with 'Anonymous' to try it!</p>
       <a href="/login">To login</a>
       <a href="/create_account">To register</a>
       <% } %>
+      <script src="./assets/index.js"></script>
   </body>
 </html>
