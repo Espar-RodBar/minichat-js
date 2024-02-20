@@ -26,12 +26,12 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       const { messages } = responseParsed.data
 
       for (let i = 0; i < messages.length; i++) {
-        const htmlMsg = `<li class="message" data-message-id="${messages[i]._id}">
+        const htmlMsg = `<p class="message" data-message-id="${messages[i]._id}">
         <span class="message_id">${messages[i].id}</span>
         <span class="message_text">${messages[i].text}</span>
         <span class="message_user">${messages[i].user.userName}</span>
         <span class="message_likes">${messages[i].likes}</span>
-        </li>`
+        </p>`
         document
           .querySelector('.text_whiteboard')
           .insertAdjacentHTML('beforeend', htmlMsg)
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 ////////////////////
 // socket listening
 socket.on('server message', (msg) => {
-  const htmlMsg = `<li class="message" data-message-id="${msg._id}">
+  const htmlMsg = `<p class="message" data-message-id="${msg._id}">
   <span class="message_id">${msg.id}</span>
   <span class="message_text">${msg.text}</span>
   <span class="message_user"
@@ -59,7 +59,7 @@ socket.on('server message', (msg) => {
   >
   <span class="message_likes">${msg.likes}</span>
   
-  </li>`
+  </p>`
   document
     .querySelector('.text_whiteboard')
     .insertAdjacentHTML('beforeend', htmlMsg)

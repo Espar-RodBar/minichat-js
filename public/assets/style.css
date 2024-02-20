@@ -116,8 +116,9 @@ section > form .error {
 
 .text_whiteboard {
   min-height: 20rem;
+  max-height: 20rem;
   padding: 1rem;
-  list-style: none;
+  overflow: scroll;
   border: 2px solid rgb(255, 217, 0);
   box-shadow:
     0 0 1rem 1px rgba(255, 255, 0, 0.4),
