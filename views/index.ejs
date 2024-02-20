@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="./assets/style.css" />
   </head>
   <body>
+    <section>
     <header>
       <h1>ChatJS</h1>
     </header>
 
     <h2>Welcome to ChatJS </h2>
     <% if (user) { %>
-      <p>Hello again <%= user %><span id="logout" class="btn_logout">logout</span> </p>
+      <p class="user_name_logout">Hello again <%= user %><span id="logout" class="btn_logout">logout</span> </p>
       
       <a href="/chatroom">Let's chat again!</a>
     <% } %>
@@ -21,9 +22,10 @@
 
     <% if (!user) { %>
       <p>To use the chat, first signup or login with 'Anonymous' to try it!</p>
-      <a href="/login">To login</a>
-      <a href="/create_account">To register</a>
+      <a class="register_link" href="/login">To login</a>
+      <a class="register_link" href="/create_account">To register</a>
       <% } %>
+    </section>
       <script src="./assets/index.js"></script>
   </body>
 </html>

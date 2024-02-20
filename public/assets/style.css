@@ -73,8 +73,8 @@ section > form .error {
 .register_wrapper {
   text-align: center;
 }
-.register_wrapper a:link,
-.register_wrapper a:visited {
+.register_link:link,
+.register_link:visited {
   text-decoration: none;
   border-bottom: 2px solid rgb(255, 217, 0);
   color: rgb(211, 141, 0);
@@ -179,6 +179,12 @@ section > form .error {
 }
 .message_edit:hover {
   background: rgba(255, 191, 0, 0.57);
+}
+
+.user_name_logout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .btn_logout {
