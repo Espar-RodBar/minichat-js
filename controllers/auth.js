@@ -38,6 +38,7 @@ exports.signUp = async (req, res) => {
 }
 
 exports.signIn = async (req, res) => {
+  console.log('signin')
   try {
     const userName = req.body.userName.trim()
     const password = req.body.password
@@ -77,6 +78,15 @@ exports.signIn = async (req, res) => {
   }
 }
 
+exports.logout = async (req, res) => {
+  const token = null
+  res.cookie('jwt', token, {
+    expires: new Date(Date.now() + 500),
+    httpOnly: true,
+  })
+  res.status(200).json({ status: 'success' })
+}
+
 exports.protect = async (req, res, next) => {
   error = { message: '' }
   const cookie = req.cookies.jwt
@@ -113,20 +123,24 @@ exports.protect = async (req, res, next) => {
 
 exports.isLoggedIn = async (req, res, next) => {
   const cookie = req.cookies.jwt
+  try {
+    if (cookie) {
+      token = cookie
 
-  if (cookie) {
-    token = cookie
+      // 1.- Verification token
+      const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
 
-    // 1.- Verification token
-    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+      // 2.- Check if user exist
+      const tokenUser = await User.findById(decoded.id)
+      if (!tokenUser) return next()
 
-    // 2.- Check if user exist
-    const tokenUser = await User.findById(decoded.id)
-    if (!tokenUser) return next()
-
-    // 3.- user logged
-    res.locals.user = tokenUser
+      // 3.- user logged
+      res.locals.user = tokenUser
+      return next()
+    }
+    next()
+  } catch (er) {
+    // if jwt.verify makes an error (On logout) just go next()
     return next()
   }
-  next()
 }

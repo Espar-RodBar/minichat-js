@@ -64,3 +64,26 @@ socket.on('server message', (msg) => {
     .querySelector('.text_whiteboard')
     .insertAdjacentHTML('beforeend', htmlMsg)
 })
+
+const logout = async function (e) {
+  try {
+    const response = await fetch(`${baseUrl}/api/user/logout`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+
+    const data = await response.json()
+    console.log(data)
+    if (data.status === 'success') {
+      window.location.href = baseUrl + '/'
+    }
+  } catch (err) {
+    console.log('error on logout:', err)
+  }
+}
+
+const logoutEl = document.querySelector('#logout')
+
+if (logoutEl) {
+  logoutEl.addEventListener('click', logout)
+}

@@ -28,3 +28,26 @@ form.addEventListener('submit', async function (e) {
     errorEl.textContent = ''
   }
 })
+
+const logout = async function (e) {
+  try {
+    const response = await fetch(`${baseUrl}/api/user/logout`, {
+      method: 'GET',
+      mode: 'cors',
+    })
+
+    const data = await response.json()
+    console.log(data)
+    if (data.status === 'success') {
+      location.reload(true)
+    }
+  } catch (err) {
+    console.log('error on logout:', err)
+  }
+}
+
+const logoutEl = document.querySelector('#logout')
+
+if (logoutEl) {
+  logoutEl.addEventListener('click', logout)
+}

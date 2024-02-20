@@ -26,19 +26,4 @@ app.use('/api/user', usersRoute)
 app.use('/api/messages', messageRoute)
 app.use('/', viewRoute)
 
-// views
-// app.get('/', (req, res) => {
-
-// })
-// app.get('/login', (req, res) => {
-//   res.status(200).render('login.ejs')
-// })
-// app.get('/create_account', (req, res) => {
-//   res.status(200).render('register.ejs')
-// })
-// app.get('/chatroom', (req, res) => {
-//   console.log(res.locals)
-//   res.status(200).render('chatRoom.ejs')
-// })
-
 module.exports = app
