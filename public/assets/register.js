@@ -26,6 +26,7 @@ form.addEventListener('submit', async function (e) {
     errorEl.textContent = data.message
   } else if (data.status === 'success') {
     errorEl.textContent = ''
+    window.location.href = baseUrl + '/chatroom'
   }
 })
 
