@@ -18,6 +18,9 @@ function App() {
       {appStatus === APP_STATUS.USER_NOT_LOGGED && (
         <MainScreen setStatus={setAppStatus} />
       )}
+      {appStatus === APP_STATUS.USER_TO_SIGNIN && (
+        <LoginScreen setStatus={setAppStatus} />
+      )}
       <Footer />
     </>
   )
@@ -49,6 +52,48 @@ function MainScreen({ setStatus }) {
       <p>To use the chat, first signup or login with 'Anonymous' to try it!</p>
       <div className='button_container'>
         <ToBtn onClick={handlerToLogin}>to Login</ToBtn>
+        <ToBtn onClick={handlerToRegister}>to Registry</ToBtn>
+      </div>
+    </>
+  )
+}
+
+function LoginScreen({ setStatus }) {
+  const handlerToRegister = () => setStatus(APP_STATUS.USER_TO_REGISTER)
+  return (
+    <>
+      <form class='login_form' method='POST'>
+        <div class='login_container'>
+          <div class='user_name_wrapper user_wrapper'>
+            <label for='userName'>User name:</label>
+            <input
+              type='text'
+              id='input_user_name'
+              class='input_user_name'
+              name='userName'
+              required
+            />
+          </div>
+          <div class='user_pin_wrapper user_wrapper'>
+            <label for='userPin'>Pin:</label>
+            <input
+              type='text'
+              id='input_user_pin'
+              class='input_user_pin'
+              name='password'
+            />
+          </div>
+          <input
+            type='submit'
+            class='button_green'
+            id='login_btn'
+            value='login'
+          />
+        </div>
+        <div class='error'></div>
+      </form>
+      <p className='center_text'>if you don't have an user, go to</p>
+      <div className='button_container'>
         <ToBtn onClick={handlerToRegister}>to Registry</ToBtn>
       </div>
     </>

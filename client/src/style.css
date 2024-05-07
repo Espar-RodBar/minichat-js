@@ -281,6 +281,9 @@ section > form .error {
 }
 
 /* HELPER CLASSES */
+.center_text {
+  text-align: center;
+}
 .no_display {
   display: none;
 }
