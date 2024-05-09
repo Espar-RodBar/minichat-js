@@ -24,6 +24,7 @@ function App() {
       {appStatus === APP_STATUS.USER_TO_REGISTER && (
         <RegistryScreen setStatus={setAppStatus} />
       )}
+      {appStatus === APP_STATUS.USER_LOGGED && <ChatRoom />}
       <Footer />
     </>
   )
@@ -141,6 +142,21 @@ function RegistryScreen({ setStatus }) {
       <div className='button_container'>
         <ToBtn onClick={handlerToSignin}>to Signin</ToBtn>
       </div>
+    </>
+  )
+}
+
+function ChatRoom() {
+  return (
+    <>
+      <form class='addMsg' id='addMsg_form' method='POST'>
+        <div class='message_wrapper'>
+          <input type='text' id='input-message' name='message' />
+          <input type='submit' class='button_green' id='msgButton' />
+        </div>
+      </form>
+
+      <div class='text_whiteboard'></div>
     </>
   )
 }
