@@ -1,9 +1,7 @@
 exports.signIn = (req, res) => {
-  error = { message: '' }
-  res.render('login.ejs', error)
+  res.status(200).json({ status: 'ok', message: '' })
 }
 
 exports.signUpIndex = (req, res) => {
-  const error = { status: false, message: '' }
-  res.render('register.ejs', { error })
+  res.status(200).json({ status: 'ok', message: '' })
 }

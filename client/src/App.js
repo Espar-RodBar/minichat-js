@@ -69,10 +69,24 @@ function LoginScreen({ setStatus }) {
 
   const handlerToRegister = () => setStatus(APP_STATUS.USER_TO_REGISTER)
 
-  function handlerLoginSubmit(e) {
+  async function handlerLoginSubmit(e) {
     e.preventDefault()
-    console.log('submiting login')
+    const baseUrl = window.location.origin
+
+    console.log('submiting login', baseUrl)
     console.log(inputName, inputPassword)
+
+    const response = await fetch(`${baseUrl}/api/user/login`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ inputPassword, inputName }),
+    })
+
+    const data = await response.json()
+    console.log('login:', response, data)
   }
   return (
     <>

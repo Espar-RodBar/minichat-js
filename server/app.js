@@ -24,6 +24,6 @@ app.use(express.static('public'))
 // routers
 app.use('/api/user', usersRoute)
 app.use('/api/messages', messageRoute)
-app.use('/', viewRoute)
+//app.use('/', viewRoute)
 
 module.exports = app
