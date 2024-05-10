@@ -9,7 +9,6 @@ const signToken = (id) => {
 }
 
 exports.signUp = async (req, res) => {
-  console.log(req)
   try {
     const userName = req.body.userName.trim()
     const password = req.body.password
