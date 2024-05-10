@@ -12,6 +12,7 @@ const APP_STATUS = {
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
+
   return (
     <>
       <Title status={appStatus} />
@@ -63,38 +64,48 @@ function MainScreen({ setStatus }) {
 }
 
 function LoginScreen({ setStatus }) {
+  const [inputName, setInputName] = useState('Anonymous')
+  const [inputPassword, setInputPassword] = useState('')
+
   const handlerToRegister = () => setStatus(APP_STATUS.USER_TO_REGISTER)
+
+  function handlerLoginSubmit(e) {
+    e.preventDefault()
+    console.log('submiting login')
+    console.log(inputName, inputPassword)
+  }
   return (
     <>
-      <form class='login_form' method='POST'>
-        <div class='login_container'>
-          <div class='user_name_wrapper user_wrapper'>
-            <label for='userName'>User name:</label>
+      <form className='login_form' method='POST' onSubmit={handlerLoginSubmit}>
+        <div className='login_container'>
+          <div className='user_name_wrapper user_wrapper'>
+            <label htmlFor='userName'>User name:</label>
             <input
               type='text'
               id='input_user_name'
-              class='input_user_name'
+              className='input_user_name'
               name='userName'
+              value={inputName}
+              onChange={(e) => setInputName(e.target.value)}
               required
             />
           </div>
-          <div class='user_pin_wrapper user_wrapper'>
-            <label for='userPin'>Pin:</label>
+          <div className='user_pin_wrapper user_wrapper'>
+            <label htmlFor='userPin'>Pin:</label>
             <input
               type='text'
               id='input_user_pin'
-              class='input_user_pin'
+              className='input_user_pin'
               name='password'
+              value={inputPassword}
+              onChange={(e) => setInputPassword(e.target.value)}
             />
           </div>
-          <input
-            type='submit'
-            class='button_green'
-            id='login_btn'
-            value='login'
-          />
+          <button className='button_green' id='login_btn'>
+            Login
+          </button>
         </div>
-        <div class='error'></div>
+        <div className='error'></div>
       </form>
       <p className='center_text'>if you haven't got an user, go to</p>
       <div className='button_container'>
@@ -108,35 +119,35 @@ function RegistryScreen({ setStatus }) {
   const handlerToSignin = () => setStatus(APP_STATUS.USER_TO_SIGNIN)
   return (
     <>
-      <form class='login_form' method='POST'>
-        <div class='login_container'>
-          <div class='user_name_wrapper user_wrapper'>
-            <label for='userName'>User name:</label>
+      <form className='login_form' method='POST'>
+        <div className='login_container'>
+          <div className='user_name_wrapper user_wrapper'>
+            <label htmlFor='userName'>User name:</label>
             <input
               type='text'
               id='input_user_name'
-              class='input_user_name'
+              className='input_user_name'
               name='userName'
               required
             />
           </div>
-          <div class='user_pin_wrapper user_wrapper'>
-            <label for='userPin'>Pin:</label>
+          <div className='user_pin_wrapper user_wrapper'>
+            <label htmlFor='userPin'>Pin:</label>
             <input
               type='text'
               id='input_user_pin'
-              class='input_user_pin'
+              className='input_user_pin'
               name='password'
             />
           </div>
           <input
             type='submit'
-            class='button_green'
+            className='button_green'
             id='login_btn'
-            value='login'
+            value='Signup'
           />
         </div>
-        <div class='error'></div>
+        <div className='error'></div>
       </form>
       <p className='center_text'>if you have got an user, go to</p>
       <div className='button_container'>
@@ -149,21 +160,21 @@ function RegistryScreen({ setStatus }) {
 function ChatRoom() {
   return (
     <>
-      <form class='addMsg' id='addMsg_form' method='POST'>
-        <div class='message_wrapper'>
+      <form className='addMsg' id='addMsg_form' method='POST'>
+        <div className='message_wrapper'>
           <input type='text' id='input-message' name='message' />
-          <input type='submit' class='button_green' id='msgButton' />
+          <input type='submit' className='button_green' id='msgButton' />
         </div>
       </form>
 
-      <div class='text_whiteboard'></div>
+      <div className='text_whiteboard'></div>
     </>
   )
 }
 
 function ToBtn({ onClick, children }) {
   return (
-    <button class='register_btn' onClick={() => onClick()}>
+    <button className='register_btn' onClick={() => onClick()}>
       {children}
     </button>
   )
