@@ -13,7 +13,8 @@ const viewRoute = require('./routes/viewRoute')
 const app = express()
 
 // Middleware
-app.use(cors())
+// app.use(cors())
+app.options('*', cors())
 app.use(cookies())
 app.use(loger('dev'))
 app.set('view engine', 'ejs')

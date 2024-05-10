@@ -76,18 +76,28 @@ function LoginScreen({ setStatus }) {
 
     console.log('submiting login')
     console.log(inputName, inputPassword)
-    // const response = await fetch(`${baseUrl}/api/user/login`, {
-    const response = await fetch(`http://localhost:3000/api/user/login`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password: inputPassword, userName: inputName }),
-    })
+    try {
+      // const response = await fetch(`${baseUrl}/api/user/login`, {
+      const response = await fetch(`http://localhost:3000/api/user/login`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password: inputPassword, userName: inputName }),
+      })
 
-    const data = await response.json()
-    console.log('login:', response, data)
+      const data = await response.json()
+      console.log('login:', response, data)
+      if (data.status === 'fail') {
+        setErrorMsg(data.message)
+      } else if (data.status === 'success') {
+        setErrorMsg('')
+        setStatus(APP_STATUS.USER_LOGGED)
+      }
+    } catch (err) {
+      console.log('error fetching data')
+    }
   }
   return (
     <>
@@ -154,6 +164,7 @@ function RegistryScreen({ setStatus }) {
       setErrorMsg(data.message)
     } else if (data.status === 'success') {
       setErrorMsg(``)
+      handlerToSignin()
     }
   }
   return (
@@ -169,7 +180,7 @@ function RegistryScreen({ setStatus }) {
               name='userName'
               required
               value={inputName}
-              onChange={setInputName}
+              onChange={(e) => setInputName(e.target.value)}
             />
           </div>
           <div className='user_pin_wrapper user_wrapper'>
