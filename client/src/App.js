@@ -1,5 +1,6 @@
 // import Title from './components/Title.js'
 // import Footer from './components/Footer.js'
+import { useCookies } from 'react-cookie'
 import { useState } from 'react'
 import './style.css'
 
@@ -12,7 +13,9 @@ const APP_STATUS = {
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
-
+  const [cookies, setCookies] = useCookies(['user'])
+  setCookies()
+  console.log(cookies)
   return (
     <>
       <Title status={appStatus} />
@@ -209,6 +212,28 @@ function RegistryScreen({ setStatus }) {
 }
 
 function ChatRoom() {
+  // get all messages from DB
+  async function populateMsgDB() {
+    try {
+      const response = await fetch(`http://localhost:3000/api/messages`)
+      if (response.ok) {
+        const responseParsed = await response.json()
+        const { messages } = responseParsed.data
+
+        console.log(messages)
+      } else {
+        console.log('failed fetching messages', response.status)
+        const error = await response.json()
+        console.log(error.message)
+        // redirect
+        // window.location.href = baseUrl + '/login'
+      }
+    } catch (err) {
+      console.log('catch error:', err)
+    }
+  }
+  //populateMsgDB()
+
   return (
     <>
       <form className='addMsg' id='addMsg_form' method='POST'>
