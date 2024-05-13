@@ -1,7 +1,7 @@
 // import Title from './components/Title.js'
 // import Footer from './components/Footer.js'
 import { useCookies } from 'react-cookie'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './style.css'
 
 const APP_STATUS = {
@@ -85,7 +85,7 @@ function LoginScreen({ setStatus, setAuthCookies }) {
     console.log('submiting login')
     try {
       // const response = await fetch(`${baseUrl}/api/user/login`, {
-      const response = await fetch(`http://localhost:3000/api/user/login`, {
+      const response = await fetch(`${baseUrl}/api/user/login`, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -153,12 +153,14 @@ function RegistryScreen({ setStatus }) {
   const [inputPassword, setInputPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
+  const baseUrl = window.location.origin
+
   const handlerToSignin = () => setStatus(APP_STATUS.USER_TO_SIGNIN)
 
   async function handlerSignup(e) {
     e.preventDefault()
 
-    const response = await fetch(`http://localhost:3000/api/user/signup`, {
+    const response = await fetch(`${baseUrl}/api/user/signup`, {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -216,26 +218,44 @@ function RegistryScreen({ setStatus }) {
   )
 }
 
+// import { useEffect } from 'react'
 function ChatRoom() {
-  // get all messages from DB
-  async function populateMsgDB() {
-    try {
-      const response = await fetch(`http://localhost:3000/api/messages`)
-      if (response.ok) {
-        const responseParsed = await response.json()
-        const { messages } = responseParsed.data
+  const [messages, setMessages] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
-        console.log(messages)
-      } else {
-        console.log('failed fetching messages', response.status)
-        const error = await response.json()
-        console.log(error.message)
+  const baseUrl = window.location.origin
+
+  useEffect(() => {
+    // get all messages from DB
+    async function populateMsgDB() {
+      try {
+        // 1.- Clean messages
+        setMessages([])
+
+        // 2.- get messages from DB
+        const response = await fetch(`${baseUrl}/api/messages`)
+
+        if (!response.ok) {
+          throw new Error('failed fetching messages', response.status)
+        }
+
+        // 3.- if ok, populate messages to the state
+        const responseParsed = await response.json()
+        const { messages: messagesBd } = responseParsed.data
+
+        messagesBd.forEach((msg) => setMessages([...messages, msg]))
+        setError(null)
+        console.log('mensajes', messages)
+      } catch (err) {
+        console.log('catch error:', err)
+        setError(error.message)
+      } finally {
+        setLoading(false)
       }
-    } catch (err) {
-      console.log('catch error:', err)
     }
-  }
-  populateMsgDB()
+    populateMsgDB()
+  })
 
   return (
     <>
