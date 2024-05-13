@@ -13,10 +13,10 @@ const APP_STATUS = {
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
-  const [cookies, setCookies] = useCookies(['auth-token'])
-  // setCookies('auth-token', '')
+  const [cookies, setCookies] = useCookies(['jwt'])
+
   function handlerAuthtoken(token) {
-    setCookies('auth-token', token)
+    setCookies('jwt', token)
   }
   return (
     <>
@@ -83,7 +83,6 @@ function LoginScreen({ setStatus, setAuthCookies }) {
     const baseUrl = window.location.origin
 
     console.log('submiting login')
-    console.log(inputName, inputPassword)
     try {
       // const response = await fetch(`${baseUrl}/api/user/login`, {
       const response = await fetch(`http://localhost:3000/api/user/login`, {
@@ -96,7 +95,7 @@ function LoginScreen({ setStatus, setAuthCookies }) {
       })
 
       const data = await response.json()
-      console.log('login:', response, data)
+
       if (data.status === 'fail') {
         setErrorMsg(data.message)
       } else if (data.status === 'success') {
@@ -231,14 +230,12 @@ function ChatRoom() {
         console.log('failed fetching messages', response.status)
         const error = await response.json()
         console.log(error.message)
-        // redirect
-        // window.location.href = baseUrl + '/login'
       }
     } catch (err) {
       console.log('catch error:', err)
     }
   }
-  //populateMsgDB()
+  populateMsgDB()
 
   return (
     <>

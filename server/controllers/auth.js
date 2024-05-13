@@ -89,6 +89,7 @@ exports.logout = async (req, res) => {
 exports.protect = async (req, res, next) => {
   error = { message: '' }
   const cookie = req.cookies.jwt
+  console.log('cookie from front', req.cookies)
   // 1.- Get token and if exist
   let token
   if (
