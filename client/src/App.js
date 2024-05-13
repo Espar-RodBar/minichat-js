@@ -13,9 +13,11 @@ const APP_STATUS = {
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
-  const [cookies, setCookies] = useCookies(['user'])
-  setCookies()
-  console.log(cookies)
+  const [cookies, setCookies] = useCookies(['auth-token'])
+  // setCookies('auth-token', '')
+  function handlerAuthtoken(token) {
+    setCookies('auth-token', token)
+  }
   return (
     <>
       <Title status={appStatus} />
@@ -23,7 +25,10 @@ function App() {
         <MainScreen setStatus={setAppStatus} />
       )}
       {appStatus === APP_STATUS.USER_TO_SIGNIN && (
-        <LoginScreen setStatus={setAppStatus} />
+        <LoginScreen
+          setStatus={setAppStatus}
+          setAuthCookies={handlerAuthtoken}
+        />
       )}
       {appStatus === APP_STATUS.USER_TO_REGISTER && (
         <RegistryScreen setStatus={setAppStatus} />
@@ -66,7 +71,7 @@ function MainScreen({ setStatus }) {
   )
 }
 
-function LoginScreen({ setStatus }) {
+function LoginScreen({ setStatus, setAuthCookies }) {
   const [inputName, setInputName] = useState('Anonymous')
   const [inputPassword, setInputPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
@@ -96,6 +101,7 @@ function LoginScreen({ setStatus }) {
         setErrorMsg(data.message)
       } else if (data.status === 'success') {
         setErrorMsg('')
+        setAuthCookies(data.token)
         setStatus(APP_STATUS.USER_LOGGED)
       }
     } catch (err) {
