@@ -227,35 +227,39 @@ function ChatRoom() {
   const baseUrl = window.location.origin
 
   useEffect(() => {
-    // get all messages from DB
-    async function populateMsgDB() {
-      try {
-        // 1.- Clean messages
-        setMessages([])
-
-        // 2.- get messages from DB
-        const response = await fetch(`${baseUrl}/api/messages`)
-
-        if (!response.ok) {
-          throw new Error('failed fetching messages', response.status)
+    // 1.- get messages from DB
+    fetch(`${baseUrl}/api/messages`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('failed fetching messages', res.status)
         }
+        console.log(res)
+        return res.json()
+      })
+      .then((resParsed) => {
+        const msgBd = resParsed.data.messages
+        console.log('datafetched', msgBd)
 
-        // 3.- if ok, populate messages to the state
-        const responseParsed = await response.json()
-        const { messages: messagesBd } = responseParsed.data
-
-        messagesBd.forEach((msg) => setMessages([...messages, msg]))
+        //2.- Add msg to the state
+        console.log('data...')
+        setMessages([...msgBd])
         setError(null)
-        console.log('mensajes', messages)
-      } catch (err) {
+      })
+      .catch((err) => {
         console.log('catch error:', err)
         setError(error.message)
-      } finally {
+      })
+      .finally(() => {
+        console.log('messages state', messages)
         setLoading(false)
-      }
-    }
-    populateMsgDB()
-  })
+      })
+  }, [messages])
 
   return (
     <>
