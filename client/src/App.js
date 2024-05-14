@@ -11,6 +11,9 @@ const APP_STATUS = {
   USER_LOGGED: 'user_logged',
 }
 
+// const baseUrl = window.location.origin
+const baseUrl = 'http://localhost:3000/'
+
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
   const [cookies, setCookies] = useCookies(['jwt'])
@@ -80,7 +83,6 @@ function LoginScreen({ setStatus, setAuthCookies }) {
 
   async function handlerLoginSubmit(e) {
     e.preventDefault()
-    const baseUrl = window.location.origin
 
     console.log('submiting login')
     try {
@@ -153,8 +155,6 @@ function RegistryScreen({ setStatus }) {
   const [inputPassword, setInputPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const baseUrl = window.location.origin
-
   const handlerToSignin = () => setStatus(APP_STATUS.USER_TO_SIGNIN)
 
   async function handlerSignup(e) {
@@ -223,8 +223,6 @@ function ChatRoom() {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const baseUrl = window.location.origin
 
   useEffect(() => {
     // 1.- get messages from DB
