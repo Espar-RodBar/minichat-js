@@ -9,7 +9,6 @@ viewRouter.use(auth.isLoggedIn)
 viewRouter.get('/', viewController.getIndex)
 viewRouter.get('/login', viewController.getLogin)
 viewRouter.get('/create_account', viewController.getSignup)
-// viewRouter.get('/chatroom', auth.protect, viewController.getChatroom)
-viewRouter.get('/chatroom', viewController.getChatroom)
+viewRouter.get('/chatroom', auth.protect, viewController.getChatroom)
 
 module.exports = viewRouter

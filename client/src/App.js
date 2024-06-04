@@ -12,7 +12,7 @@ const APP_STATUS = {
 }
 
 // const baseUrl = window.location.origin
-const baseUrl = 'http://localhost:3000/'
+const baseUrl = 'http://localhost:3000'
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
@@ -237,27 +237,25 @@ function ChatRoom() {
         if (!res.ok) {
           throw new Error('failed fetching messages', res.status)
         }
-        console.log(res)
         return res.json()
       })
-      .then((resParsed) => {
-        const msgBd = resParsed.data.messages
+      .then((data) => {
+        const msgBd = data.data.messages
         console.log('datafetched', msgBd)
 
         //2.- Add msg to the state
-        console.log('data...')
         setMessages([...msgBd])
-        setError(null)
+        // setError(null)
       })
       .catch((err) => {
         console.log('catch error:', err)
-        setError(error.message)
+        // setError(error.message)
       })
       .finally(() => {
         console.log('messages state', messages)
-        setLoading(false)
+        // setLoading(false)
       })
-  }, [messages])
+  }, [])
 
   return (
     <>
