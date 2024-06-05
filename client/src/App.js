@@ -1,6 +1,8 @@
 // import Title from './components/Title.js'
 // import Footer from './components/Footer.js'
 import { useCookies } from 'react-cookie'
+import { socket } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
+
 import { useEffect, useState } from 'react'
 import './style.css'
 
@@ -17,6 +19,7 @@ const baseUrl = 'http://localhost:3000'
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
   const [cookies, setCookies] = useCookies(['jwt'])
+  const [userLogged, setUserLogged] = useState(null)
 
   function handlerAuthtoken(token) {
     setCookies('jwt', token)
@@ -24,6 +27,9 @@ function App() {
   return (
     <>
       <Title status={appStatus} />
+      {appStatus === APP_STATUS.USER_LOGGED && (
+        <UserLogout userName={userLogged} setStatus={setAppStatus} />
+      )}
       {appStatus === APP_STATUS.USER_NOT_LOGGED && (
         <MainScreen setStatus={setAppStatus} />
       )}
@@ -31,6 +37,7 @@ function App() {
         <LoginScreen
           setStatus={setAppStatus}
           setAuthCookies={handlerAuthtoken}
+          setUser={setUserLogged}
         />
       )}
       {appStatus === APP_STATUS.USER_TO_REGISTER && (
@@ -74,7 +81,7 @@ function MainScreen({ setStatus }) {
   )
 }
 
-function LoginScreen({ setStatus, setAuthCookies }) {
+function LoginScreen({ setStatus, setAuthCookies, setUser }) {
   const [inputName, setInputName] = useState('Anonymous')
   const [inputPassword, setInputPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
@@ -104,6 +111,7 @@ function LoginScreen({ setStatus, setAuthCookies }) {
         setErrorMsg('')
         setAuthCookies(data.token)
         setStatus(APP_STATUS.USER_LOGGED)
+        setUser(inputName)
       }
     } catch (err) {
       console.log('error fetching data')
@@ -221,11 +229,27 @@ function RegistryScreen({ setStatus }) {
 // import { useEffect } from 'react'
 function ChatRoom() {
   const [messages, setMessages] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
+  const [msg, setMsg] = useState('')
+  const [isConnected, setIsconnected] = useState(socket.connected)
+
+  // socket.on('server message', (msg) => {
+  //   console.log('socket on:', msg)
+  // })
+
+  function handlerSendMessage() {
+    if (msg) {
+      //socket.emit('client message', msg)
+      console.log('mensaje enviado ', msg)
+    }
+    setMsg('')
+  }
 
   useEffect(() => {
     // 1.- get messages from DB
+    setLoading((loading) => (loading = true))
+
     fetch(`${baseUrl}/api/messages`, {
       method: 'GET',
       mode: 'cors',
@@ -241,33 +265,106 @@ function ChatRoom() {
       })
       .then((data) => {
         const msgBd = data.data.messages
-        console.log('datafetched', msgBd)
 
         //2.- Add msg to the state
         setMessages([...msgBd])
-        // setError(null)
+        setError((err) => (err = null))
       })
       .catch((err) => {
         console.log('catch error:', err)
-        // setError(error.message)
+        setError((err) => (err = 'error fetching'))
       })
       .finally(() => {
-        console.log('messages state', messages)
-        // setLoading(false)
+        setLoading((loading) => (loading = false))
       })
+
+    // 3.- socket
+    socket.on(
+      'connect',
+      () => console.log('connected') /*setIsconnected(true)*/
+    )
+    socket.on('disconnect', () => setIsconnected(false))
+    socket.on('server message', () => console.log('message from server'))
+    return () => {
+      socket.off('connect', () => setIsconnected(true))
+      socket.off('disconnect', () => setIsconnected(false))
+      socket.off('server message', () => console.log('message from server'))
+    }
   }, [])
 
   return (
     <>
+      <p>
+        Connected:
+        {!isConnected && <span>🔴</span>}
+        {isConnected && <span>🟢</span>}
+      </p>
       <form className='addMsg' id='addMsg_form' method='POST'>
         <div className='message_wrapper'>
-          <input type='text' id='input-message' name='message' />
-          <input type='submit' className='button_green' id='msgButton' />
+          <input
+            type='text'
+            id='input-message'
+            name='message'
+            value={msg}
+            onChange={(msg) => (msg = this.target.value)}
+          />
+          <input
+            type='submit'
+            className='button_green'
+            id='msgButton'
+            onClick={handlerSendMessage}
+          />
         </div>
       </form>
 
-      <div className='text_whiteboard'></div>
+      <div className='text_whiteboard'>
+        {messages.map((msg) => (
+          <LineMessage
+            text={msg.text}
+            user={msg.user.userName}
+            likes={msg.likes}
+          />
+        ))}
+      </div>
     </>
+  )
+}
+
+function LineMessage({ text, user, likes }) {
+  return (
+    <p className='message'>
+      <span className='message_user'>{user}:</span>
+      <span className='message_text'>{text}</span>
+      <span className='message_likes'>{likes}</span>
+    </p>
+  )
+}
+
+function UserLogout({ userName, setUser, setStatus }) {
+  const handlerLogout = async function (e) {
+    try {
+      const response = await fetch(`${baseUrl}/api/user/logout`, {
+        method: 'GET',
+        mode: 'cors',
+      })
+
+      const data = await response.json()
+      console.log(data)
+      if (data.status === 'success') {
+        setStatus(APP_STATUS.USER_NOT_LOGGED)
+        setUser(null)
+      }
+    } catch (err) {
+      console.log('error on logout:', err)
+    }
+  }
+  return (
+    <p class='user_name_logout'>
+      User name: {userName}
+      <span id='logout' class='btn_logout' onClick={handlerLogout}>
+        logout
+      </span>{' '}
+    </p>
   )
 }
 
