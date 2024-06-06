@@ -22,7 +22,9 @@ app.use(express.urlencoded({ extended: true }))
 // routers
 app.use('/api/user', usersRoute)
 app.use('/api/messages', messageRoute)
-
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+})
 // for the use of ejs templates.
 //app.use('/', viewRoute)
 
