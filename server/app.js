@@ -32,6 +32,6 @@ app.use('/api/messages', messageRoute)
 //app.use('/', viewRoute)
 
 // for using the react client
-app.use(express.static((__dirname, '../client/build')))
+app.use(express.static('../client/build'))
 
 module.exports = app
