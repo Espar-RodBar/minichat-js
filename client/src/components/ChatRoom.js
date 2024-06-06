@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = window.location.origin
 
 const socket = io()
 
@@ -49,7 +49,6 @@ export default function ChatRoom() {
     socket.on('disconnect', () => setIsconnected(false))
     socket.on('server message', (msg) => {
       // on a server message, add to the state
-      console.log(messages)
       setMessages((ms) => [...ms, msg])
     })
     return () => {
@@ -118,11 +117,20 @@ function SendMsg() {
 }
 
 function LineMessage({ text, user, likes }) {
+  const [msgLikes, setMsgLikes] = useState(likes)
+
+  // TODO: Implement API for likes be persistent
+  function handlerSetMsgLikes() {
+    setMsgLikes((l) => l + 1)
+  }
+
   return (
     <p className='message'>
       <span className='message_user'>{user}:</span>
       <span className='message_text'>{text}</span>
-      <span className='message_likes'>{likes}</span>
+      <span className='message_likes' onClick={handlerSetMsgLikes}>
+        {msgLikes}
+      </span>
     </p>
   )
 }

@@ -8,7 +8,7 @@ const APP_STATUS = {
   USER_LOGGED: 'user_logged',
 }
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = window.location.origin
 
 export default function RegistryScreen({ setStatus }) {
   const [inputName, setInputName] = useState('Anonymous')
@@ -42,7 +42,7 @@ export default function RegistryScreen({ setStatus }) {
       <form className='login_form' method='POST' onSubmit={handlerSignup}>
         <div className='login_container'>
           <div className='user_name_wrapper user_wrapper'>
-            <label htmlFor='userName'>User name:</label>
+            <label htmlFor='input_user_name'>User name:</label>
             <input
               type='text'
               id='input_user_name'
@@ -54,12 +54,12 @@ export default function RegistryScreen({ setStatus }) {
             />
           </div>
           <div className='user_pin_wrapper user_wrapper'>
-            <label htmlFor='userPin'>Pin:</label>
+            <label htmlFor='input_user_pin'>Pin:</label>
             <input
               type='text'
               id='input_user_pin'
               className='input_user_pin'
-              name='password'
+              name='userPin'
               value={inputPassword}
               onChange={setInputPassword}
             />

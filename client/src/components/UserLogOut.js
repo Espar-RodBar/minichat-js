@@ -4,7 +4,7 @@ const APP_STATUS = {
   USER_TO_REGISTER: 'user_to_register',
   USER_LOGGED: 'user_logged',
 }
-const baseUrl = 'http://localhost:3000'
+const baseUrl = window.location.origin
 
 export default function UserLogout({ userName, setUser, setStatus }) {
   const handlerLogout = async function (e) {

@@ -1,5 +1,4 @@
 import { useCookies } from 'react-cookie'
-import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
 
 import { useState } from 'react'
 import './style.css'
@@ -19,9 +18,6 @@ const APP_STATUS = {
   USER_LOGGED: 'user_logged',
 }
 
-// const baseUrl = window.location.origin
-const baseUrl = 'http://localhost:3000'
-
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
   const [cookies, setCookies] = useCookies(['jwt'])
@@ -32,7 +28,7 @@ function App() {
   }
   return (
     <>
-      <Title status={appStatus} />
+      <Title status={appStatus} jwt={cookies.jwt} />
       {appStatus === APP_STATUS.USER_LOGGED && (
         <UserLogout userName={userLogged} setStatus={setAppStatus} />
       )}
