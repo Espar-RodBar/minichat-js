@@ -1,10 +1,15 @@
-// import Title from './components/Title.js'
-// import Footer from './components/Footer.js'
 import { useCookies } from 'react-cookie'
-import { socket } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
+import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
 
 import { useEffect, useState } from 'react'
 import './style.css'
+
+import Title from './components/Title.js'
+import Footer from './components/Footer.js'
+import UserLogout from './components/UserLogOut.js'
+import LoginScreen from './components/LoginScreen.js'
+import RegistryScreen from './components/RegistryScreen.js'
+import MainScreen from './components/MainScreen.js'
 
 const APP_STATUS = {
   USER_NOT_LOGGED: 'user_not_logged',
@@ -49,198 +54,21 @@ function App() {
   )
 }
 
-function Title({ status }) {
-  let subTitle = ''
-  if (status === APP_STATUS.USER_NOT_LOGGED)
-    subTitle = 'App powered with NodeJS and React!'
-  else if (status === APP_STATUS.USER_TO_REGISTER) subTitle = 'Register'
-  else if (status === APP_STATUS.USER_TO_SIGNIN) subTitle = 'Signin'
-  else if (status === APP_STATUS.USER_LOGGED) subTitle = 'Chatroom'
-
-  return (
-    <header className='header'>
-      <h1>MiniChatJS</h1>
-      <p>{subTitle}</p>
-    </header>
-  )
-}
-
-function MainScreen({ setStatus }) {
-  const handlerToLogin = () => setStatus(APP_STATUS.USER_TO_SIGNIN)
-  const handlerToRegister = () => setStatus(APP_STATUS.USER_TO_REGISTER)
-
-  return (
-    <>
-      <h2>Welcome to ChatJS</h2>
-      <p>To use the chat, first signup or login with 'Anonymous' to try it!</p>
-      <div className='button_container'>
-        <ToBtn onClick={handlerToLogin}>to Login</ToBtn>
-        <ToBtn onClick={handlerToRegister}>to Registry</ToBtn>
-      </div>
-    </>
-  )
-}
-
-function LoginScreen({ setStatus, setAuthCookies, setUser }) {
-  const [inputName, setInputName] = useState('Anonymous')
-  const [inputPassword, setInputPassword] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const handlerToRegister = () => setStatus(APP_STATUS.USER_TO_REGISTER)
-
-  async function handlerLoginSubmit(e) {
-    e.preventDefault()
-
-    console.log('submiting login')
-    try {
-      // const response = await fetch(`${baseUrl}/api/user/login`, {
-      const response = await fetch(`${baseUrl}/api/user/login`, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ password: inputPassword, userName: inputName }),
-      })
-
-      const data = await response.json()
-
-      if (data.status === 'fail') {
-        setErrorMsg(data.message)
-      } else if (data.status === 'success') {
-        setErrorMsg('')
-        setAuthCookies(data.token)
-        setStatus(APP_STATUS.USER_LOGGED)
-        setUser(inputName)
-      }
-    } catch (err) {
-      console.log('error fetching data')
-    }
-  }
-  return (
-    <>
-      <form className='login_form' method='POST' onSubmit={handlerLoginSubmit}>
-        <div className='login_container'>
-          <div className='user_name_wrapper user_wrapper'>
-            <label htmlFor='userName'>User name:</label>
-            <input
-              type='text'
-              id='input_user_name'
-              className='input_user_name'
-              name='userName'
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-              required
-            />
-          </div>
-          <div className='user_pin_wrapper user_wrapper'>
-            <label htmlFor='userPin'>Pin:</label>
-            <input
-              type='text'
-              id='input_user_pin'
-              className='input_user_pin'
-              name='password'
-              value={inputPassword}
-              onChange={(e) => setInputPassword(e.target.value)}
-            />
-          </div>
-          <button className='button_green' id='login_btn'>
-            Login
-          </button>
-        </div>
-        <div className='error'>{errorMsg}</div>
-      </form>
-      <p className='center_text'>if you haven't got an user, go to</p>
-      <div className='button_container'>
-        <ToBtn onClick={handlerToRegister}>to Registry</ToBtn>
-      </div>
-    </>
-  )
-}
-
-function RegistryScreen({ setStatus }) {
-  const [inputName, setInputName] = useState('Anonymous')
-  const [inputPassword, setInputPassword] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
-
-  const handlerToSignin = () => setStatus(APP_STATUS.USER_TO_SIGNIN)
-
-  async function handlerSignup(e) {
-    e.preventDefault()
-
-    const response = await fetch(`${baseUrl}/api/user/signup`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ password: inputPassword, userName: inputName }),
-    })
-
-    const data = await response.json()
-    if (data.status === 'fail') {
-      setErrorMsg(data.message)
-    } else if (data.status === 'success') {
-      setErrorMsg(``)
-      handlerToSignin()
-    }
-  }
-  return (
-    <>
-      <form className='login_form' method='POST' onSubmit={handlerSignup}>
-        <div className='login_container'>
-          <div className='user_name_wrapper user_wrapper'>
-            <label htmlFor='userName'>User name:</label>
-            <input
-              type='text'
-              id='input_user_name'
-              className='input_user_name'
-              name='userName'
-              required
-              value={inputName}
-              onChange={(e) => setInputName(e.target.value)}
-            />
-          </div>
-          <div className='user_pin_wrapper user_wrapper'>
-            <label htmlFor='userPin'>Pin:</label>
-            <input
-              type='text'
-              id='input_user_pin'
-              className='input_user_pin'
-              name='password'
-              value={inputPassword}
-              onChange={setInputPassword}
-            />
-          </div>
-          <button type='submit' className='button_green' id='login_btn'>
-            signup
-          </button>
-        </div>
-        <div className='error'>{errorMsg}</div>
-      </form>
-      <p className='center_text'>if you have got an user, go to</p>
-      <div className='button_container'>
-        <ToBtn onClick={handlerToSignin}>to Signin</ToBtn>
-      </div>
-    </>
-  )
-}
-
 // import { useEffect } from 'react'
 function ChatRoom() {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
   const [msg, setMsg] = useState('')
+
+  const socket = io()
+
   const [isConnected, setIsconnected] = useState(socket.connected)
 
-  // socket.on('server message', (msg) => {
-  //   console.log('socket on:', msg)
-  // })
-
-  function handlerSendMessage() {
+  function handlerSendMessage(e) {
+    e.preventDefault()
     if (msg) {
-      //socket.emit('client message', msg)
+      socket.emit('client message', msg)
       console.log('mensaje enviado ', msg)
     }
     setMsg('')
@@ -279,16 +107,17 @@ function ChatRoom() {
       })
 
     // 3.- socket
-    socket.on(
-      'connect',
-      () => console.log('connected') /*setIsconnected(true)*/
-    )
+    socket.on('connect', () => setIsconnected(true))
     socket.on('disconnect', () => setIsconnected(false))
-    socket.on('server message', () => console.log('message from server'))
+    socket.on('server message', (msg) =>
+      console.log('message from server', msg)
+    )
     return () => {
       socket.off('connect', () => setIsconnected(true))
       socket.off('disconnect', () => setIsconnected(false))
-      socket.off('server message', () => console.log('message from server'))
+      socket.off('server message', (msg) =>
+        console.log('message from server', msg)
+      )
     }
   }, [])
 
@@ -306,7 +135,7 @@ function ChatRoom() {
             id='input-message'
             name='message'
             value={msg}
-            onChange={(msg) => (msg = this.target.value)}
+            onChange={(e) => setMsg(e.target.value)}
           />
           <input
             type='submit'
@@ -338,46 +167,6 @@ function LineMessage({ text, user, likes }) {
       <span className='message_likes'>{likes}</span>
     </p>
   )
-}
-
-function UserLogout({ userName, setUser, setStatus }) {
-  const handlerLogout = async function (e) {
-    try {
-      const response = await fetch(`${baseUrl}/api/user/logout`, {
-        method: 'GET',
-        mode: 'cors',
-      })
-
-      const data = await response.json()
-      console.log(data)
-      if (data.status === 'success') {
-        setStatus(APP_STATUS.USER_NOT_LOGGED)
-        setUser(null)
-      }
-    } catch (err) {
-      console.log('error on logout:', err)
-    }
-  }
-  return (
-    <p class='user_name_logout'>
-      User name: {userName}
-      <span id='logout' class='btn_logout' onClick={handlerLogout}>
-        logout
-      </span>{' '}
-    </p>
-  )
-}
-
-function ToBtn({ onClick, children }) {
-  return (
-    <button className='register_btn' onClick={() => onClick()}>
-      {children}
-    </button>
-  )
-}
-
-function Footer() {
-  return <footer className='footer'></footer>
 }
 
 export default App
