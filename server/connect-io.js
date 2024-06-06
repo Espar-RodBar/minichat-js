@@ -13,6 +13,8 @@ module.exports = function (server) {
   })
 
   io.on('connection', (socket) => {
+    console.log('connecting....')
+
     const cookies = socket.handshake.headers.cookie
       .split(';')
       .reduce((obj, el) => {
@@ -20,6 +22,7 @@ module.exports = function (server) {
         obj[`${keyVal[0]}`] = keyVal[1]
         return obj
       }, {})
+
     socket.on('disconnect', () => {
       console.log('User disconnected')
     })
