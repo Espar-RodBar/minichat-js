@@ -15,7 +15,6 @@ export default function UserLogout({ userName, setUser, setStatus }) {
       })
 
       const data = await response.json()
-      console.log(data)
       if (data.status === 'success') {
         setStatus(APP_STATUS.USER_NOT_LOGGED)
         setUser(null)
