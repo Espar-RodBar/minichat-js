@@ -13,6 +13,8 @@ module.exports = function (server) {
   })
 
   io.on('connection', (socket) => {
+    // guard clause
+    if (!socket.handshake.headers.cookie) return
     const cookies = socket.handshake.headers.cookie
       .split(';')
       .reduce((obj, el) => {
