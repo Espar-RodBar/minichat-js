@@ -9,12 +9,15 @@ const baseUrl = window.location.origin
 export default function UserLogout({ userName, setUserLogged, setStatus }) {
   const handlerLogout = async function () {
     try {
-      const response = await fetch(`${baseUrl}/api/user/logout`, {
+      const response = await fetch(
+        `${baseUrl}/api/user/logout` /*, {
         method: 'GET',
         mode: 'cors',
-      })
+      }*/
+      )
 
       const data = await response.json()
+      console.log('logout data: ', data)
       if (data.status === 'success') {
         setStatus(APP_STATUS.USER_NOT_LOGGED)
         setUserLogged((user) => (user = null))

@@ -78,6 +78,8 @@ exports.signIn = async (req, res) => {
 }
 
 exports.logout = async (req, res) => {
+  console.log('logout reseting token')
+
   const token = null
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + 500),
