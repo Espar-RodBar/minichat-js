@@ -6,8 +6,8 @@ const APP_STATUS = {
 }
 const baseUrl = window.location.origin
 
-export default function UserLogout({ userName, setUser, setStatus }) {
-  const handlerLogout = async function (e) {
+export default function UserLogout({ userName, setUserLogged, setStatus }) {
+  const handlerLogout = async function () {
     try {
       const response = await fetch(`${baseUrl}/api/user/logout`, {
         method: 'GET',
@@ -17,7 +17,7 @@ export default function UserLogout({ userName, setUser, setStatus }) {
       const data = await response.json()
       if (data.status === 'success') {
         setStatus(APP_STATUS.USER_NOT_LOGGED)
-        setUser(null)
+        setUserLogged((user) => (user = null))
       }
     } catch (err) {
       console.log('error on logout:', err)

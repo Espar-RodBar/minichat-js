@@ -30,7 +30,11 @@ function App() {
     <>
       <Title status={appStatus} jwt={cookies.jwt} />
       {appStatus === APP_STATUS.USER_LOGGED && (
-        <UserLogout userName={userLogged} setStatus={setAppStatus} />
+        <UserLogout
+          userName={userLogged}
+          setStatus={setAppStatus}
+          setUserLogged={setUserLogged}
+        />
       )}
       {appStatus === APP_STATUS.USER_NOT_LOGGED && (
         <MainScreen setStatus={setAppStatus} />
