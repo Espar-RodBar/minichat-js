@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/user', usersRoute)
 app.use('/api/messages', messageRoute)
 app.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+  res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'))
 })
 // for the use of ejs templates.
 //app.use('/', viewRoute)
@@ -36,6 +36,6 @@ app.get('/', (req, res) => {
 // app.use(express.static('public'))
 
 // for using the react client
-app.use(express.static(path.resolve(__dirname, '../client/build')))
+app.use(express.static(path.resolve(__dirname, '../frontend/build')))
 
 module.exports = app
