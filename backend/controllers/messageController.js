@@ -10,3 +10,20 @@ exports.getMessages = async (req, res) => {
     console.log(error)
   }
 }
+
+exports.postMessage = async (req, res) => {
+  try {
+    console.log('onPostMsg')
+    console.log('res', res)
+    console.log('req', req)
+    res.status(200).json({ msg: 'ok' })
+    // // 2. find user in db
+    // let tokenUser = await User.findById(decoded.id)
+    // console.log('user who send msg with cookie token: ', tokenUser)
+    // // 3.- Create the msg in db with the user
+    // const result = await saveMessage(msg, MessageModel, tokenUser.id)
+    // await result.populate({ path: 'user', select: '-__v -password' })
+  } catch (error) {
+    console.log(error)
+  }
+}

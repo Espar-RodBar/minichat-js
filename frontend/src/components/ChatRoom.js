@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react'
-import { io } from 'https://cdn.socket.io/4.7.4/socket.io.esm.min.js'
+import socket from '../socket'
 
 const baseUrl = window.location.origin
 
-const socket = io()
-
-export default function ChatRoom() {
+export default function ChatRoom({ getTokenCookie, children }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
@@ -45,19 +43,29 @@ export default function ChatRoom() {
       })
 
     // 3.- socket
-    socket.on('connect', () => setIsconnected(true))
-    socket.on('disconnect', () => setIsconnected(false))
-    socket.on('server message', (msg) => {
+    socket.connect()
+    socket.on('connect', function connect() {
+      setIsconnected(true)
+    })
+    socket.on('disconnect', function disconnect() {
+      setIsconnected(false)
+    })
+    socket.on('server message', function serverMsg(msg) {
       // on a server message, add to the state
       setMessages((ms) => [...ms, msg])
     })
     return () => {
-      socket.off('connect', () => setIsconnected(true))
-      socket.off('disconnect', () => setIsconnected(false))
+      socket.off('connect', function connect() {
+        setIsconnected(true)
+      })
+      socket.off('disconnect', function disconnect() {
+        setIsconnected(false)
+      })
       socket.off('server message', (msg) =>
         // on a server message, add to the state
         setMessages((ms) => [...ms, msg])
       )
+      socket.disconnect()
     }
   }, [])
 
@@ -68,7 +76,7 @@ export default function ChatRoom() {
         {!isConnected && <span>🔴</span>}
         {isConnected && <span>🟢</span>}
       </p>
-
+      {children}
       <SendMsg />
 
       <div className='text_whiteboard'>
