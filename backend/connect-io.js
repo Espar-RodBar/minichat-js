@@ -18,7 +18,6 @@ module.exports = function (server) {
       console.log('no cookies on socket')
       return
     }
-    console.log('cookies on socket', socket.handshake.headers.cookie)
     const cookies = socket.handshake.headers.cookie
       .split(';')
       .reduce((obj, el) => {
@@ -35,8 +34,6 @@ module.exports = function (server) {
     })
     socket.on('client message', async (msg) => {
       try {
-        console.log('Recibiendo mensaje del cliente....', msg)
-        console.log('jwt on msg:', cookies)
         // 1.- Decode the token
         const decoded = await promisify(jwt.verify)(
           cookies['jwt'],
@@ -45,7 +42,6 @@ module.exports = function (server) {
 
         // // 2. find user in db
         let tokenUser = await User.findById(decoded.id)
-        console.log('user who send msg with cookie token: ', tokenUser)
         // // 3.- Create the msg in db with the user
 
         const result = await saveMessage(msg, MessageModel, tokenUser.id)

@@ -99,7 +99,6 @@ function SendMsg() {
     e.preventDefault()
     if (msg) {
       socket.emit('client message', msg)
-      console.log('mensaje enviado ', msg)
     }
     setMsg('')
   }

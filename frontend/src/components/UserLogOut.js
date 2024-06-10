@@ -20,7 +20,6 @@ export default function UserLogout({
       const response = await fetch(`${baseUrl}/api/user/logout`)
 
       const data = await response.json()
-      console.log('logout data: ', data)
 
       if (data.status === 'success') {
         setStatus(APP_STATUS.USER_NOT_LOGGED)
