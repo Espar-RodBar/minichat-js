@@ -25,7 +25,6 @@ function App() {
   const [userLogged, setUserLogged] = useState(null)
 
   function handlerAddTokenCookie(token) {
-    console.log('add token to cookies:', token)
     Cookies.set('jwt', token)
   }
 
@@ -34,7 +33,6 @@ function App() {
   }
 
   function handlerRemoveTokenCookie() {
-    console.log('remove Cookies:', Cookies)
     Cookies.remove('jwt')
   }
 
