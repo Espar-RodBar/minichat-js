@@ -63,13 +63,13 @@ exports.signIn = async (req, res) => {
     // 3.- send token
     const token = `${signToken(user._id)}`
 
-    res.cookie('jwt', token, {
-      expires: new Date(
-        Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      secure: true,
-      httpOnly: true,
-    })
+    // res.cookie('jwt', token, {
+    //   expires: new Date(
+    //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    //   ),
+    //   secure: true,
+    //   httpOnly: true,
+    // })
 
     return res.status(200).json({ status: 'success', token })
   } catch (err) {
@@ -78,6 +78,8 @@ exports.signIn = async (req, res) => {
 }
 
 exports.logout = async (req, res) => {
+  console.log('logout reseting token')
+
   const token = null
   res.cookie('jwt', token, {
     expires: new Date(Date.now() + 500),

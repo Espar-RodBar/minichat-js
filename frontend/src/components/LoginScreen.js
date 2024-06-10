@@ -22,7 +22,6 @@ export default function LoginScreen({ setStatus, setAuthCookies, setUser }) {
 
     console.log('submiting login')
     try {
-      // const response = await fetch(`${baseUrl}/api/user/login`, {
       const response = await fetch(`${baseUrl}/api/user/login`, {
         method: 'POST',
         mode: 'cors',

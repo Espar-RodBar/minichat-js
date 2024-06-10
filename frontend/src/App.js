@@ -1,4 +1,5 @@
-import { useCookies } from 'react-cookie'
+// import { useCookies } from 'react-cookie'
+import Cookies from 'js-cookie'
 
 import { useState } from 'react'
 import './style.css'
@@ -20,36 +21,49 @@ const APP_STATUS = {
 
 function App() {
   const [appStatus, setAppStatus] = useState(APP_STATUS.USER_NOT_LOGGED)
-  const [cookies, setCookies] = useCookies(['jwt'])
+  // const [cookies, setCookie, removeCookie] = useCookies(['jwt'])
   const [userLogged, setUserLogged] = useState(null)
 
-  function handlerAuthtoken(token) {
-    setCookies('jwt', token)
+  function handlerAddTokenCookie(token) {
+    console.log('add token to cookies:', token)
+    Cookies.set('jwt', token)
   }
+
+  function handlerGetTokenCookie() {
+    return Cookies.get('jwt')
+  }
+
+  function handlerRemoveTokenCookie() {
+    console.log('remove Cookies:', Cookies)
+    Cookies.remove('jwt')
+  }
+
   return (
     <>
-      <Title status={appStatus} jwt={cookies.jwt} />
-      {appStatus === APP_STATUS.USER_LOGGED && (
-        <UserLogout
-          userName={userLogged}
-          setStatus={setAppStatus}
-          setUserLogged={setUserLogged}
-        />
-      )}
+      <Title status={appStatus} /*jwt={cookies.jwt}*/ />
       {appStatus === APP_STATUS.USER_NOT_LOGGED && (
         <MainScreen setStatus={setAppStatus} />
       )}
       {appStatus === APP_STATUS.USER_TO_SIGNIN && (
         <LoginScreen
           setStatus={setAppStatus}
-          setAuthCookies={handlerAuthtoken}
+          setAuthCookies={handlerAddTokenCookie}
           setUser={setUserLogged}
         />
       )}
       {appStatus === APP_STATUS.USER_TO_REGISTER && (
         <RegistryScreen setStatus={setAppStatus} />
       )}
-      {appStatus === APP_STATUS.USER_LOGGED && <ChatRoom />}
+      {appStatus === APP_STATUS.USER_LOGGED && (
+        <ChatRoom getTokenCookie={handlerGetTokenCookie}>
+          <UserLogout
+            userName={userLogged}
+            setStatus={setAppStatus}
+            setUserLogged={setUserLogged}
+            removeCookie={handlerRemoveTokenCookie}
+          />
+        </ChatRoom>
+      )}
       <Footer />
     </>
   )
