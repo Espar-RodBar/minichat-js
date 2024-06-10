@@ -61,7 +61,7 @@ export default function RegistryScreen({ setStatus }) {
               className='input_user_pin'
               name='userPin'
               value={inputPassword}
-              onChange={setInputPassword}
+              onChange={(e) => setInputPassword(e.target.value)}
             />
           </div>
           <button type='submit' className='button_green' id='login_btn'>
