@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import socket from '../socket'
 
 const baseUrl = window.location.origin
@@ -7,16 +7,18 @@ export default function ChatRoom({ userName, children }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
-
-  // const [scrollPos, setScrollPos] = useState(0)
-  // const scrollDiv = useRef(null)
-
+  const [scrollTopValue, setScrollTopValue] = useState(0)
   const [isConnected, setIsconnected] = useState(socket.connected)
 
-  const handlerScroll = (e) => {
-    // console.log(scrollDiv.current)
-    console.log(e)
+  async function handlerMessages(msg) {
+    setMessages((ms) => [...ms, msg])
+    setScrollTopValue((val) => val + 20)
   }
+
+  useEffect(() => {
+    const scrollContainer = document.querySelector('.text_whiteboard')
+    scrollContainer.scrollTop = scrollTopValue
+  }, [scrollTopValue])
 
   useEffect(() => {
     // 1.- get messages from DB
@@ -39,7 +41,8 @@ export default function ChatRoom({ userName, children }) {
         const msgBd = data.data.messages
 
         //2.- Add msg to the state
-        setMessages([...msgBd])
+        msgBd.forEach((msg) => handlerMessages(msg))
+
         setError((err) => (err = null))
       })
       .catch((err) => {
@@ -59,8 +62,8 @@ export default function ChatRoom({ userName, children }) {
       setIsconnected(false)
     })
     socket.on('server message', function serverMsg(msg) {
-      // on a server message, add to the state
-      setMessages((ms) => [...ms, msg])
+      // on a server message, add msg to the state
+      handlerMessages(msg)
     })
     return () => {
       socket.off('connect', function connect() {
@@ -87,7 +90,7 @@ export default function ChatRoom({ userName, children }) {
       {children}
       <SendMsg />
 
-      <ul className='text_whiteboard' onClick={handlerScroll}>
+      <ul className='text_whiteboard'>
         {messages.map((msg) => (
           <LineMessage
             text={msg.text}
@@ -139,7 +142,6 @@ function LineMessage({ text, textUser, likes, userName }) {
   // TODO: Implement API for likes be persistent
   function handlerSetMsgLikes() {
     setMsgLikes((l) => l + 1)
-    console.log(textUser, userName)
   }
 
   return (
