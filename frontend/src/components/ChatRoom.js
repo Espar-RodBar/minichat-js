@@ -150,9 +150,11 @@ function LineMessage({ text, textUser, likes, userName }) {
         {textUser === userName && userName !== 'Anonymous' ? 'Tu' : textUser}:
       </span>
       <span className='message_text'>{text}</span>
-      <span className='message_likes' onClick={handlerSetMsgLikes}>
-        {msgLikes}
-      </span>
+      {textUser !== userName && (
+        <span className='message_likes' onClick={handlerSetMsgLikes}>
+          {msgLikes}
+        </span>
+      )}
     </li>
   )
 }
