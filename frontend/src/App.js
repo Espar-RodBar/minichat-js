@@ -53,7 +53,7 @@ function App() {
         <RegistryScreen setStatus={setAppStatus} />
       )}
       {appStatus === APP_STATUS.USER_LOGGED && (
-        <ChatRoom getTokenCookie={handlerGetTokenCookie}>
+        <ChatRoom userName={userLogged}>
           <UserLogout
             userName={userLogged}
             setStatus={setAppStatus}

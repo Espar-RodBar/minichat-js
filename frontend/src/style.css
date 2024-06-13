@@ -166,7 +166,7 @@ section > form .error {
 
 .message_user {
   flex-basis: 15%;
-  text-align: center;
+  text-align: left;
 }
 
 .message_likes {

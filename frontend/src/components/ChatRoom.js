@@ -1,14 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import socket from '../socket'
 
 const baseUrl = window.location.origin
 
-export default function ChatRoom({ getTokenCookie, children }) {
+export default function ChatRoom({ userName, children }) {
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(null)
   const [error, setError] = useState(null)
 
+  // const [scrollPos, setScrollPos] = useState(0)
+  // const scrollDiv = useRef(null)
+
   const [isConnected, setIsconnected] = useState(socket.connected)
+
+  const handlerScroll = (e) => {
+    // console.log(scrollDiv.current)
+    console.log(e)
+  }
 
   useEffect(() => {
     // 1.- get messages from DB
@@ -79,15 +87,17 @@ export default function ChatRoom({ getTokenCookie, children }) {
       {children}
       <SendMsg />
 
-      <div className='text_whiteboard'>
+      <ul className='text_whiteboard' onClick={handlerScroll}>
         {messages.map((msg) => (
           <LineMessage
             text={msg.text}
-            user={msg.user.userName}
+            textUser={msg.user.userName}
             likes={msg.likes}
+            key={msg.id}
+            userName={userName}
           />
         ))}
-      </div>
+      </ul>
     </>
   )
 }
@@ -123,21 +133,24 @@ function SendMsg() {
   )
 }
 
-function LineMessage({ text, user, likes }) {
+function LineMessage({ text, textUser, likes, userName }) {
   const [msgLikes, setMsgLikes] = useState(likes)
 
   // TODO: Implement API for likes be persistent
   function handlerSetMsgLikes() {
     setMsgLikes((l) => l + 1)
+    console.log(textUser, userName)
   }
 
   return (
-    <p className='message'>
-      <span className='message_user'>{user}:</span>
+    <li className='message'>
+      <span className='message_user'>
+        {textUser === userName && userName !== 'Anonymous' ? 'Tu' : textUser}:
+      </span>
       <span className='message_text'>{text}</span>
       <span className='message_likes' onClick={handlerSetMsgLikes}>
         {msgLikes}
       </span>
-    </p>
+    </li>
   )
 }
