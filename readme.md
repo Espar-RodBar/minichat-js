@@ -30,3 +30,4 @@ The creating of an authentication system, with users, hashing the password for s
 
 - Improvement of Ui design
 - Login persistence
+- List of users connected
