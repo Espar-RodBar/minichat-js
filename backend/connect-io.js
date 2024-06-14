@@ -12,12 +12,26 @@ module.exports = function (server) {
     },
   })
 
+  //Middleware
+  io.use(async (socket, next) => {
+    try {
+      const user = await fetchUser(socket)
+      socket.user = user
+    } catch (err) {
+      console.error(err)
+      next(new Error('unknown user'))
+    }
+  })
+
   io.on('connection', (socket) => {
     // guard clause
     if (!socket.handshake.headers.cookie) {
       console.log('no cookies on socket')
       return
     }
+
+    console.log('user:', socket.user)
+
     const cookies = socket.handshake.headers.cookie
       .split(';')
       .reduce((obj, el) => {
@@ -25,13 +39,16 @@ module.exports = function (server) {
         obj[`${keyVal[0]}`] = keyVal[1]
         return obj
       }, {})
+
     socket.on('disconnect', () => {
       console.log('User disconnected')
     })
+
     socket.on('client logout', () => {
       socket.handshake.headers.cookie = null
       console.log('User logout')
     })
+
     socket.on('client message', async (msg) => {
       try {
         // 1.- Decode the token
