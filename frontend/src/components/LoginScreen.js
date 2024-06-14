@@ -20,7 +20,6 @@ export default function LoginScreen({ setStatus, setAuthCookies, setUser }) {
   async function handlerLoginSubmit(e) {
     e.preventDefault()
 
-    console.log('submiting login')
     try {
       const response = await fetch(`${baseUrl}/api/user/login`, {
         method: 'POST',
