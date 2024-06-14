@@ -57,12 +57,14 @@ module.exports = function (server) {
     socket.on('disconnect', () => {
       socket.handshake.headers.cookie = null
       usersConnected.delete(socket.userName)
+      io.sockets.emit('listUsers', Array.from(usersConnected.keys()).join(' '))
       console.log('User disconnected')
     })
 
     socket.on('client logout', () => {
       socket.handshake.headers.cookie = null
       usersConnected.delete(socket.userName)
+      io.sockets.emit('listUsers', Array.from(usersConnected.keys()).join(' '))
       console.log('User logout')
     })
 
