@@ -5,7 +5,7 @@ const saveMessage = require('./helpers/saveMessage')
 const jwt = require('jsonwebtoken')
 const { promisify } = require('util')
 
-const usersConnected = new Set()
+const usersConnected = new Map()
 
 module.exports = function (server) {
   const io = new Server(server, {
@@ -36,17 +36,23 @@ module.exports = function (server) {
       process.env.JWT_SECRET
     )
 
-    // 2. find user in db and add it to the socket. Add usercoonected to the socket
+    // 2. find user in db and add it to the socket.
     let tokenUser = await User.findById(decoded.id).select('userName')
     const userName = tokenUser.userName
-    usersConnected.add(userName)
+    console.log(socket.id)
+
+    // 3. If user connects from another client, close the first
+    if (usersConnected.has(userName)) {
+      const id = usersConnected.get(`${userName}`)
+      io.sockets.sockets.get(id).disconnect(true)
+    }
+
+    // 4.-Add user to usercoonected with the socket id
+    usersConnected.set(userName, socket.id)
     socket.userName = userName
 
-    // 3.- emite the list of users connected:
-    io.sockets.emit('listUsers', Array.from(usersConnected).join(' '))
-
-    // 4. If user connects from another client, close the first
-    // TODO
+    // 5.- emite the list of users connected:
+    io.sockets.emit('listUsers', Array.from(usersConnected.keys()).join(' '))
 
     socket.on('disconnect', () => {
       socket.handshake.headers.cookie = null
