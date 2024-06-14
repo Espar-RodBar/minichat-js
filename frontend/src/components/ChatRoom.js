@@ -15,6 +15,7 @@ export default function ChatRoom({ userName, children }) {
     setScrollTopValue((val) => val + 20)
   }
 
+  // scrolldown
   useEffect(() => {
     const scrollContainer = document.querySelector('.text_whiteboard')
     scrollContainer.scrollTop = scrollTopValue
@@ -92,13 +93,15 @@ export default function ChatRoom({ userName, children }) {
 
       <ul className='text_whiteboard'>
         {messages.map((msg) => (
-          <LineMessage
-            text={msg.text}
-            textUser={msg.user.userName}
-            likes={msg.likes}
-            key={msg.id}
-            userName={userName}
-          />
+          <li className='message' key={msg._id}>
+            <LineMessage
+              text={msg.text}
+              textUser={msg.user.userName}
+              likes={msg.likes}
+              id={msg._id}
+              userName={userName}
+            />
+          </li>
         ))}
       </ul>
     </>
@@ -136,16 +139,27 @@ function SendMsg() {
   )
 }
 
-function LineMessage({ text, textUser, likes, userName }) {
+function LineMessage({ text, textUser, likes, userName, id }) {
   const [msgLikes, setMsgLikes] = useState(likes)
 
-  // TODO: Implement API for likes be persistent
   function handlerSetMsgLikes() {
-    setMsgLikes((l) => l + 1)
+    fetch(`${baseUrl}/api/messages/${id}/like`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error('failed fetching messages', res.status)
+      }
+      setMsgLikes((l) => l + 1)
+      return res.json()
+    })
   }
 
   return (
-    <li className='message'>
+    <>
       <span className='message_user'>
         {textUser === userName && userName !== 'Anonymous' ? 'Tu' : textUser}:
       </span>
@@ -155,6 +169,6 @@ function LineMessage({ text, textUser, likes, userName }) {
           {msgLikes}
         </span>
       )}
-    </li>
+    </>
   )
 }

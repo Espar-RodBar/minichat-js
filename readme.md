@@ -28,5 +28,5 @@ The creating of an authentication system, with users, hashing the password for s
 
 ## TODO:
 
-- Implement a like function for every message.
 - Improvement of Ui design
+- Login persistence

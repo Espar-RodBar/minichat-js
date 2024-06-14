@@ -27,3 +27,13 @@ exports.postMessage = async (req, res) => {
     console.log(error)
   }
 }
+
+exports.addLike = async (req, res) => {
+  try {
+    console.log('Add like!')
+    await messageModel.findByIdAndUpdate(req.params.id, { $inc: { likes: 1 } })
+    res.status(200).json({ status: 'ok' })
+  } catch (err) {
+    console.log('error on like', err)
+  }
+}

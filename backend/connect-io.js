@@ -40,10 +40,10 @@ module.exports = function (server) {
           process.env.JWT_SECRET
         )
 
-        // // 2. find user in db
+        // 2. find user in db
         let tokenUser = await User.findById(decoded.id)
-        // // 3.- Create the msg in db with the user
 
+        // 3.- Create the msg in db with the user
         const result = await saveMessage(msg, MessageModel, tokenUser.id)
         await result.populate({ path: 'user', select: '-__v -password' })
         io.emit('server message', result)
