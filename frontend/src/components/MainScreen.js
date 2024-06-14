@@ -13,8 +13,12 @@ export default function MainScreen({ setStatus }) {
 
   return (
     <>
-      <h2>Welcome to ChatJS</h2>
-      <p>To use the chat, first signup or login with 'Anonymous' to try it!</p>
+      <div className='welcome'>
+        <h2>Welcome to ChatJS</h2>
+        <p>
+          To use the chat, first signup or login with 'Anonymous' to try it!
+        </p>
+      </div>
       <div className='button_container'>
         <ToBtn onClick={handlerToLogin}>to Login</ToBtn>
         <ToBtn onClick={handlerToRegister}>to Registry</ToBtn>

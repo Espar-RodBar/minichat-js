@@ -39,29 +39,31 @@ function App() {
   return (
     <>
       <Title status={appStatus} /*jwt={cookies.jwt}*/ />
-      {appStatus === APP_STATUS.USER_NOT_LOGGED && (
-        <MainScreen setStatus={setAppStatus} />
-      )}
-      {appStatus === APP_STATUS.USER_TO_SIGNIN && (
-        <LoginScreen
-          setStatus={setAppStatus}
-          setAuthCookies={handlerAddTokenCookie}
-          setUser={setUserLogged}
-        />
-      )}
-      {appStatus === APP_STATUS.USER_TO_REGISTER && (
-        <RegistryScreen setStatus={setAppStatus} />
-      )}
-      {appStatus === APP_STATUS.USER_LOGGED && (
-        <ChatRoom userName={userLogged}>
-          <UserLogout
-            userName={userLogged}
+      <div className={'container'}>
+        {appStatus === APP_STATUS.USER_NOT_LOGGED && (
+          <MainScreen setStatus={setAppStatus} />
+        )}
+        {appStatus === APP_STATUS.USER_TO_SIGNIN && (
+          <LoginScreen
             setStatus={setAppStatus}
-            setUserLogged={setUserLogged}
-            removeCookie={handlerRemoveTokenCookie}
+            setAuthCookies={handlerAddTokenCookie}
+            setUser={setUserLogged}
           />
-        </ChatRoom>
-      )}
+        )}
+        {appStatus === APP_STATUS.USER_TO_REGISTER && (
+          <RegistryScreen setStatus={setAppStatus} />
+        )}
+        {appStatus === APP_STATUS.USER_LOGGED && (
+          <ChatRoom userName={userLogged}>
+            <UserLogout
+              userName={userLogged}
+              setStatus={setAppStatus}
+              setUserLogged={setUserLogged}
+              removeCookie={handlerRemoveTokenCookie}
+            />
+          </ChatRoom>
+        )}
+      </div>
       <Footer />
     </>
   )

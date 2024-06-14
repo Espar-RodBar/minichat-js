@@ -35,19 +35,22 @@ section > * {
   }
 }
 
-section > form {
+section div form {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
 }
-section > form .error {
+section div form .error {
   background-color: rgb(255, 86, 86);
   color: white;
 }
 
-.login_form {
+.welcome {
+  display: flex;
   flex-direction: column;
+  gap: 2.5rem;
+  align-items: center;
 }
 .user_name_wrapper,
 .user_pin_wrapper {
@@ -291,4 +294,12 @@ section > form .error {
 .visible {
   opacity: 1;
   transition: opacity 0.7s;
+}
+.container {
+  height: 35rem;
+  width: 40rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1.5rem;
 }
