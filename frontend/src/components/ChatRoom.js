@@ -9,6 +9,7 @@ export default function ChatRoom({ userName, children }) {
   const [error, setError] = useState(null)
   const [scrollTopValue, setScrollTopValue] = useState(0)
   const [isConnected, setIsconnected] = useState(socket.connected)
+  const [clientsConnected, setClientsConnected] = useState('')
 
   async function handlerMessages(msg) {
     setMessages((ms) => [...ms, msg])
@@ -56,27 +57,38 @@ export default function ChatRoom({ userName, children }) {
 
     // 3.- socket
     socket.connect()
+    socket.on('listUsers', function listUsers(list) {
+      console.log('list of users:', list)
+      setClientsConnected(list)
+    })
+
     socket.on('connect', function connect() {
       setIsconnected(true)
     })
+
     socket.on('disconnect', function disconnect() {
       setIsconnected(false)
     })
+
     socket.on('server message', function serverMsg(msg) {
       // on a server message, add msg to the state
       handlerMessages(msg)
     })
+
     return () => {
       socket.off('connect', function connect() {
         setIsconnected(true)
       })
+
       socket.off('disconnect', function disconnect() {
         setIsconnected(false)
       })
+
       socket.off('server message', (msg) =>
         // on a server message, add to the state
         setMessages((ms) => [...ms, msg])
       )
+
       socket.disconnect()
     }
   }, [])
@@ -104,6 +116,7 @@ export default function ChatRoom({ userName, children }) {
           </li>
         ))}
       </ul>
+      <p>Connected: {clientsConnected}</p>
     </>
   )
 }

@@ -5,6 +5,8 @@ const saveMessage = require('./helpers/saveMessage')
 const jwt = require('jsonwebtoken')
 const { promisify } = require('util')
 
+const usersConnected = new Set()
+
 module.exports = function (server) {
   const io = new Server(server, {
     connectionStateRecovery: {
@@ -12,25 +14,12 @@ module.exports = function (server) {
     },
   })
 
-  //Middleware
-  io.use(async (socket, next) => {
-    try {
-      const user = await fetchUser(socket)
-      socket.user = user
-    } catch (err) {
-      console.error(err)
-      next(new Error('unknown user'))
-    }
-  })
-
-  io.on('connection', (socket) => {
-    // guard clause
+  io.on('connection', async (socket) => {
+    // guard clause no cookie
     if (!socket.handshake.headers.cookie) {
       console.log('no cookies on socket')
       return
     }
-
-    console.log('user:', socket.user)
 
     const cookies = socket.handshake.headers.cookie
       .split(';')
@@ -40,12 +29,34 @@ module.exports = function (server) {
         return obj
       }, {})
 
+    // 1.- get the username from the db
+    // Decode the token
+    const decoded = await promisify(jwt.verify)(
+      cookies['jwt'],
+      process.env.JWT_SECRET
+    )
+
+    // 2. find user in db and add it to the socket. Add usercoonected to the socket
+    let tokenUser = await User.findById(decoded.id).select('userName')
+    const userName = tokenUser.userName
+    usersConnected.add(userName)
+    socket.userName = userName
+
+    // 3.- emite the list of users connected:
+    io.sockets.emit('listUsers', Array.from(usersConnected).join(' '))
+
+    // 4. If user connects from another client, close the first
+    // TODO
+
     socket.on('disconnect', () => {
+      socket.handshake.headers.cookie = null
+      usersConnected.delete(socket.userName)
       console.log('User disconnected')
     })
 
     socket.on('client logout', () => {
       socket.handshake.headers.cookie = null
+      usersConnected.delete(socket.userName)
       console.log('User logout')
     })
 
